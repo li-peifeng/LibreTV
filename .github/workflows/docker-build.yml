@@ -1,4 +1,4 @@
-name: Build iSweeTv image
+name: Build and Publish iSweeTv image
 
 on:
   workflow_run:
@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    name: Build iSweeTv image
+    name: Build and Publish iSweeTv image
     runs-on: ubuntu-latest
     if: (github.event.workflow_run.conclusion == 'success' && github.repository == 'li-peifeng/iSweeTv') || (github.repository == 'li-peifeng/iSweeTv')
 
@@ -17,14 +17,18 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
           
-      - name: Set Docker image tag based on repository
-        id: set-tag
+      - name: Set Docker image tags
+        id: set-tags
         run: |
           if [ "${{ github.repository }}" = "li-peifeng/iSweeTv" ]; then
-            echo "IMAGE_TAG=isweetv:latest" >> $GITHUB_OUTPUT
+            echo "IMAGE_NAME=isweetv" >> $GITHUB_OUTPUT
+            echo "VERSION_SUFFIX=" >> $GITHUB_OUTPUT
           else
-            echo "IMAGE_TAG=isweetv-beta:latest" >> $GITHUB_OUTPUT
+            echo "IMAGE_NAME=isweetv-beta" >> $GITHUB_OUTPUT
+            echo "VERSION_SUFFIX=-beta" >> $GITHUB_OUTPUT
           fi
+          echo "DOCKERHUB_TAG=${{ secrets.DOCKER_USERNAME }}/$IMAGE_NAME:latest" >> $GITHUB_OUTPUT
+          echo "GHCR_TAG=ghcr.io/${{ github.repository_owner }}/$IMAGE_NAME:latest" >> $GITHUB_OUTPUT
 
       - name: Set up Docker QEMU
         uses: docker/setup-qemu-action@v3
@@ -32,24 +36,26 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Log in to the Container registry
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Login to DockerHub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build and push iSweeTv image
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push images
         uses: docker/build-push-action@v6.14.0
         with:
           context: .
           file: Dockerfile
           push: true
-          tags: "${{ secrets.DOCKER_USERNAME }}/${{ steps.set-tag.outputs.IMAGE_TAG }}"
+          tags: |
+            ${{ steps.set-tags.outputs.DOCKERHUB_TAG }}
+            ${{ steps.set-tags.outputs.GHCR_TAG }}
           platforms: linux/amd64,linux/arm64/v8
