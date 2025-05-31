@@ -22,13 +22,12 @@ jobs:
         run: |
           if [ "${{ github.repository }}" = "li-peifeng/iSweeTv" ]; then
             echo "IMAGE_NAME=isweetv" >> $GITHUB_OUTPUT
-            echo "VERSION_SUFFIX=" >> $GITHUB_OUTPUT
           else
             echo "IMAGE_NAME=isweetv-beta" >> $GITHUB_OUTPUT
-            echo "VERSION_SUFFIX=-beta" >> $GITHUB_OUTPUT
           fi
-          echo "DOCKERHUB_TAG=${{ secrets.DOCKER_USERNAME }}/$IMAGE_NAME:latest" >> $GITHUB_OUTPUT
-          echo "GHCR_TAG=ghcr.io/${{ github.repository_owner }}/$IMAGE_NAME:latest" >> $GITHUB_OUTPUT
+          # 正确构造两个注册表的标签
+          echo "DOCKERHUB_TAG=${{ secrets.DOCKER_USERNAME }}/${{ steps.set-tags.outputs.IMAGE_NAME }}:latest" >> $GITHUB_OUTPUT
+          echo "GHCR_TAG=ghcr.io/${{ github.repository_owner }}/${{ steps.set-tags.outputs.IMAGE_NAME }}:latest" >> $GITHUB_OUTPUT
 
       - name: Set up Docker QEMU
         uses: docker/setup-qemu-action@v3
