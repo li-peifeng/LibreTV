@@ -8,10 +8,10 @@ on:
 
 jobs:
   bump-version:
-    if: github.repository == 'LibreSpark/LibreTV'
+    if: github.repository == 'li-peifeng/iSweeTv'
     runs-on: ubuntu-latest
     env:
-      TZ: 'Asia/Shanghai'
+      TZ: ' Europe/Rome'
 
     steps:
     - name: Checkout repository
