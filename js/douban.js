@@ -369,6 +369,7 @@ function renderDoubanTags(tags) {
 function setupDoubanRefreshBtn() {
     // 修复ID，使用正确的ID douban-refresh 而不是 douban-refresh-btn
     const btn = document.getElementById('douban-refresh');
+    const btn = document.getElementById('douban-refresh-bottom');
     if (!btn) return;
     
     btn.onclick = function() {
