@@ -379,6 +379,17 @@ function setupDoubanRefreshBtn() {
         
         renderRecommend(doubanCurrentTag, doubanPageSize, doubanPageStart);
     };
+    
+    const bottomBtn = document.getElementById('douban-refresh-bottom');
+    if (bottomBtn) {
+        bottomBtn.onclick = function() {
+            doubanPageStart += doubanPageSize;
+            if (doubanPageStart > 9 * doubanPageSize) {
+                doubanPageStart = 0;
+            }
+            renderRecommend(doubanCurrentTag, doubanPageSize, doubanPageStart);
+        };
+    }
 }
 
 function fetchDoubanTags() {
