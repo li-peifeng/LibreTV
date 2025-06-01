@@ -348,52 +348,53 @@ function updateToggleButtonState(movieToggle, tvToggle) {
 }
 
 // 渲染豆瓣标签选择器
-function renderDoubanTags(containerId) {
-    const tagContainer = document.getElementById(containerId);
+function renderDoubanTags(tags) {
+    const tagContainer = document.getElementById('douban-tags');
     if (!tagContainer) return;
-
+    
     // 确定当前应该使用的标签列表
     const currentTags = doubanMovieTvCurrentSwitch === 'movie' ? movieTags : tvTags;
-
+    
     // 清空标签容器
     tagContainer.innerHTML = '';
 
-    // 先添加所有标签
-    currentTags.forEach(tag => {
-        const btn = document.createElement("button");
+    // 先添加标签管理按钮
+    const manageBtn = document.createElement('button');
+    manageBtn.className = 'py-1.5 px-3.5 rounded text-sm font-medium transition-all duration-300 bg-[#1a1a1a] text-gray-300 hover:bg-pink-700 hover:text-white border border-[#333] hover:border-white';
+    manageBtn.innerHTML = '<span class="flex items-center"><svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>管理标签</span>';
+    manageBtn.onclick = function() {
+        showTagManageModal();
+    };
+    tagContainer.appendChild(manageBtn);
 
+    // 添加所有标签
+    currentTags.forEach(tag => {
+        const btn = document.createElement('button');
+        
         // 设置样式
         let btnClass = 'py-1.5 px-3.5 rounded text-sm font-medium transition-all duration-300 border ';
-
+        
         // 当前选中的标签使用高亮样式
         if (tag === doubanCurrentTag) {
             btnClass += 'bg-pink-600 text-white shadow-md border-white';
         } else {
             btnClass += 'bg-[#1a1a1a] text-gray-300 hover:bg-pink-700 hover:text-white border-[#333] hover:border-white';
         }
-
+        
         btn.className = btnClass;
         btn.textContent = tag;
-
-        btn.onclick = function () {
+        
+        btn.onclick = function() {
             if (doubanCurrentTag !== tag) {
                 doubanCurrentTag = tag;
                 doubanPageStart = 0;
                 renderRecommend(doubanCurrentTag, doubanPageSize, doubanPageStart);
+                renderDoubanTags();
             }
         };
-
+        
         tagContainer.appendChild(btn);
     });
-
-    // 最后添加标签管理按钮
-    const manageBtn = document.createElement('button');
-    manageBtn.className = 'py-1.5 px-3.5 rounded text-sm font-medium transition-all duration-300 bg-[#1a1a1a] text-gray-300 hover:bg-pink-700 hover:text-white border border-[#333] hover:border-white';
-    manageBtn.innerHTML = '<span class="flex items-center"><svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>管理标签</span>';
-    manageBtn.onclick = function () {
-        showTagManageModal();
-    };
-    tagContainer.appendChild(manageBtn);
 }
 
 // 设置换一批按钮事件
