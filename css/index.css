@@ -57,6 +57,20 @@
     background: #191919;
 }
 
+/* 添加以下新样式 */
+.absolute-positioned-button {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* 调整输入框的内边距确保文本不会与清空按钮重叠 */
+#searchInput {
+    padding-right: 2.5rem;
+}
+
+
 /* 最近搜索记录样式 */
 .recent-search-tag {
     display: inline-block;
