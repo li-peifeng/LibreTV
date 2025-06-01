@@ -348,35 +348,36 @@
 
             <div id="searchArea" class="flex-1 flex flex-col items-center justify-center">
                 <div class="w-full max-w-2xl">
-                    <div class="flex items-stretch mb-3 h-14 shadow-lg rounded-lg overflow-hidden">
-                        <!-- 首页按钮 -->
-                        <button onclick="resetToHome()"
-                            class="w-20 sm:w-24 flex items-center justify-center bg-white text-black font-medium hover:bg-gray-200 transition-colors"
-                            aria-label="返回首页" title="返回首页">
-                            首页
-                        </button>
-                        <!-- 搜索输入 -->
-                        <input type="text" id="searchInput"
-                            class="flex-1 bg-[#111] border-y border-[#333] text-white px-6 py-0 focus:outline-none transition-colors"
-                            placeholder="搜索你喜欢的视频..." autocomplete="off" aria-label="视频搜索框"
-                            oninput="toggleClearButton()">
-                        <!-- 清空按钮 -->
-                        <button id="clearSearchInput"
-                            class="flex pr-2 bg-[#111] border-y border-[#333] items-center justify-center text-gray-400 hover:text-white hidden"
-                            onclick="clearSearchInput()" aria-label="清空搜索框" title="清空搜索框">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M6 18L18 6M6 6l12 12"></path>
-                            </svg>
-                        </button>
-                        <!-- 搜索按钮 -->
-                        <button onclick="search()"
-                            class="w-20 sm:w-24 flex items-center justify-center bg-white text-black font-medium hover:bg-gray-200 transition-colors"
-                            aria-label="搜索按钮">
-                            搜索
-                        </button>
-                    </div>
-
+<div class="flex items-stretch mb-3 h-14 shadow-lg rounded-lg overflow-hidden">
+    <!-- 左侧按钮添加 flex-shrink-0 阻止收缩 -->
+    <button onclick="resetToHome()" 
+        class="w-20 sm:w-24 flex-shrink-0 flex items-center justify-center ...">
+        首页
+    </button>
+    
+    <!-- 输入框容器增加相对定位 -->
+    <div class="relative flex-1">
+        <input type="text" id="searchInput" 
+            class="w-full h-full bg-[#111] border-y border-[#333] text-white pl-6 pr-10 focus:outline-none transition-colors"
+            placeholder="搜索你喜欢的视频..." autocomplete="off" 
+            oninput="toggleClearButton()">
+        
+        <!-- 清空按钮改为绝对定位 -->
+        <button id="clearSearchInput" 
+            class="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center justify-center text-gray-400 hover:text-white hidden"
+            onclick="clearSearchInput()" title="清空搜索框">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+    </div>
+    
+    <!-- 右侧按钮添加 flex-shrink-0 阻止收缩 -->
+    <button onclick="search()" 
+        class="w-20 sm:w-24 flex-shrink-0 flex items-center justify-center ...">
+        搜索
+    </button>
+</div>
                     <!-- 添加最近搜索记录部分 -->
                     <div id="recentSearches" class="mt-4 flex flex-wrap gap-2" aria-label="最近搜索记录">
                         <!-- 这里会动态插入最近的搜索记录 -->
