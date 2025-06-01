@@ -49,7 +49,7 @@ function saveUserTags() {
 }
 
 let doubanMovieTvCurrentSwitch = 'movie';
-let doubanCurrentTag = '热门';
+let doubanCurrentTag = '最新';
 let doubanPageStart = 0;
 const doubanPageSize = 36; // 一次显示的项目数量
 
