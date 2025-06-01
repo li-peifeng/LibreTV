@@ -16,7 +16,57 @@
     <link rel="manifest" href="manifest.json">
 
     <style>
-        /* 新的启动画面样式 */
+        /* 全局样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+
+        :root {
+            --primary-color: #8a2be2;
+            --secondary-color: #ff69b4;
+            --bg-dark: #0a0a0a;
+            --bg-card: #111;
+            --border-color: #333;
+        }
+        
+        body {
+            background-color: var(--bg-dark);
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .page-bg {
+            background: radial-gradient(circle at 10% 20%, #1a0d2b, var(--bg-dark) 35%);
+            position: relative;
+        }
+        
+        .page-bg::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, 
+                rgba(138, 43, 226, 0.03) 0%, 
+                rgba(255, 105, 180, 0.03) 50%, 
+                rgba(138, 43, 226, 0.03) 100%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* 启动画面样式 */
         #splashScreen {
             position: fixed;
             top: 0;
@@ -103,19 +153,274 @@
             opacity: 0;
             visibility: hidden;
         }
-    </style>
+        
+        /* 修复输入框按钮布局 */
+        .search-container {
+            display: flex;
+            height: 56px;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+            max-width: 800px;
+            width: 100%;
+        }
 
-    <script src="libs/tailwindcss.min.js"></script>
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/index.css">
+        .search-button {
+            min-width: 90px;
+            flex-shrink: 0;
+            background: white;
+            color: black;
+            font-weight: 600;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .search-button:hover {
+            background: #f5f5f5;
+        }
+
+        #searchInput {
+            flex-grow: 1;
+            background: var(--bg-card);
+            color: white;
+            border: none;
+            padding: 0 22px;
+            font-size: 1.05rem;
+            outline: none;
+            transition: background 0.3s;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            min-width: 50px;
+            max-height: 100%;
+        }
+
+        #searchInput::placeholder {
+            color: #888;
+        }
+
+        #searchInput:focus {
+            background: #1a1a1a;
+        }
+
+        #clearSearchInput {
+            min-width: 50px;
+            background: var(--bg-card);
+            border: none;
+            color: #888;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.3s;
+        }
+
+        #clearSearchInput:hover {
+            color: white;
+        }
+
+        #clearSearchInput svg {
+            width: 24px;
+            height: 24px;
+        }
+        
+        /* 其他优化样式 */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .logo {
+            width: 50px;
+            height: 50px;
+            margin-right: 12px;
+            animation: float 4s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+        
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 50vh;
+        }
+        
+        .search-area {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+        
+        /* 按钮样式 */
+        .action-button {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(138, 43, 226, 0.3), 0 4px 6px rgba(255, 105, 180, 0.3);
+        }
+        
+        .action-button svg {
+            margin-right: 6px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 25px 0;
+            color: #777;
+            font-size: 0.9rem;
+            border-top: 1px solid #222;
+            margin-top: 50px;
+        }
+        
+        .feature-list {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 25px;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 25px;
+        }
+        
+        .feature-card {
+            background: rgba(30, 30, 46, 0.6);
+            border-radius: 14px;
+            padding: 30px;
+            width: 280px;
+            text-align: center;
+            border: 1px solid rgba(138, 43, 226, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+            backdrop-filter: blur(5px);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 20px;
+        }
+        
+        .feature-card h3 {
+            margin-bottom: 15px;
+            color: #f0f0f0;
+        }
+        
+        .feature-card p {
+            color: #bbb;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        .buttons-container {
+            display: flex;
+            gap: 16px;
+            margin-top: 40px;
+            justify-content: center;
+        }
+        
+        /* 移动端适配 */
+        @media (max-width: 768px) {
+            .search-container {
+                height: 50px;
+            }
+            
+            .search-button {
+                min-width: 70px;
+                font-size: 0.95rem;
+            }
+            
+            #searchInput {
+                padding: 0 16px;
+                font-size: 1rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .feature-list {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .buttons-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .logo {
+                width: 40px;
+                height: 40px;
+            }
+        }
+
+        /* 隐藏滚动条但保留滚动功能 */
+        .scroll-hidden {
+            overflow: -moz-scrollbars-none; 
+            -ms-overflow-style: none;
+        }
+
+        .scroll-hidden::-webkit-scrollbar {
+            width: 0;
+            height: 0;
+        }
+    </style>
 </head>
 
-<body class="page-bg text-white">
+<body class="page-bg">
     <!-- 启动画面 -->
     <div id="splashScreen">
         <div class="splash-logo">
-            <!-- 使用nomedia.png作为启动图像 -->
-            <img src="image/logo.png" alt="iSweeTv Logo">
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0id2hpdGUiIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIj48cGF0aCBkPSJNMTMgMi42NzE1NkwyMCAxMkwxMyAyMS4zMjg0TDEzIDE4LjMyODRMMTYuNzUgMTRMMTMgOS42NzE1NkwxMyA2LjY3MTU2TDE4Ljg1NDggMTIuOTg0NEwyMS40ODIgMTQuNDk0NEwxOC44NTQ4IDE1Ljk5ODdMMTMgMi42NzE1NlpNMTEgMjEuMzI4NEw0IDEyTDExIDIuNjcxNTZMMTEgNS42NzE1Nkw3LjI1IDEwTDExIDE0LjMyODRMMTEgMTcuMzI4NEw1LjE1NTIxIDEwLjk5ODdMMi41MTc1OCA5LjQ5NDQzTDUuMTU1MjEgOC4wMTU2TDExIDIxLjMyODRaIj48L3BhdGg+PC9zdmc+" alt="iSweeTv Logo">
         </div>
         <div class="splash-title">iSweeTv</div>
         <div class="splash-description">甜蜜观影 - 共享精彩</div>
@@ -124,470 +429,114 @@
         </div>
     </div>
 
-    <!-- 将历史记录按钮移到左上角，并缩小尺寸 -->
+    <!-- 顶部控制按钮 -->
     <div class="fixed top-4 left-4 z-10">
-        <button onclick="toggleHistory(event)"
-            class="bg-[#222] hover:bg-[#333] border border-[#333] hover:border-white rounded-lg px-3 py-1.5 transition-colors"
-            aria-label="观看历史">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        <button class="action-button" aria-label="观看历史">
+            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             </svg>
+            历史
         </button>
     </div>
 
-    <!-- 设置按钮保留在右上角，并缩小尺寸 -->
     <div class="fixed top-4 right-4 z-10">
-        <button onclick="toggleSettings(event)"
-            class="bg-[#222] hover:bg-[#333] border border-[#333] hover:border-white rounded-lg px-3 py-1.5 transition-colors"
-            aria-label="打开设置">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z">
+        <button class="action-button" aria-label="打开设置">
+            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z">
                 </path>
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
             </svg>
+            设置
         </button>
     </div>
 
-    <!-- 历史记录面板 - 标题居中 -->
-    <div id="historyPanel"
-        class="history-panel fixed left-0 top-0 h-full bg-[#111] border-r border-[#333] p-6 z-40 transform -translate-x-full transition-transform duration-300"
-        aria-label="观看历史" aria-hidden="true">
-        <div class="flex justify-between items-center mb-6">
-            <button onclick="toggleHistory()" class="close-btn">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
-                    </path>
+    <!-- 主要内容区 -->
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGcgZmlsbD0idXJsKCMyKSI+PGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iMTIiLz48cGF0aCBmaWxsPSJ3aGl0ZSIgZD0iTTE0LjQgOC40aC01LjJjLS4yMjAwMDEgMC0uNC4xOC0uNC40di44MDAwMDJjMCAuMjIuMTc5OTk5LjQuNC40aDEuNnY1LjJjMCAuMjIuMTcuNC40LjRoLjgwMDAwMmMuMjIgMCAuNC0uMTguNC0uNFY5LjZoMS42Yy4yMiAwIC40LS4xOC40LS40di0uOFoiLz48L2c+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSIyIiB4MT0iMTIiIHkxPSIwIiB4Mj0iMTIiIHkyPSIyNCI+PHN0b3Agc3RvcC1jb2xvcj0iIzhBMkJFMiIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI0ZGNDlCNyIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjwvc3ZnPg==" class="logo" alt="iSweeTv Logo">
+                <h1 class="gradient-text">iSweeTv</h1>
+            </div>
+            <p class="text-gray-400 mt-4">免费在线视频搜索与观看平台</p>
+        </header>
+
+        <div class="main-content">
+            <div class="search-area">
+                <div class="search-container">
+                    <button class="search-button">首页</button>
+                    <input type="text" id="searchInput" placeholder="搜索你喜欢的视频..." autocomplete="off" class="scroll-hidden">
+                    <button id="clearSearchInput" class="hidden">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                    <button class="search-button">搜索</button>
+                </div>
+            </div>
+            
+            <div class="mt-8 w-full max-w-2xl">
+                <div id="recentSearches" class="flex flex-wrap gap-3 justify-center">
+                    <span class="px-4 py-2 bg-[#222] rounded-xl text-gray-300 hover:bg-purple-900 transition-colors cursor-pointer">热门电影</span>
+                    <span class="px-4 py-2 bg-[#222] rounded-xl text-gray-300 hover:bg-purple-900 transition-colors cursor-pointer">动漫推荐</span>
+                    <span class="px-4 py-2 bg-[#222] rounded-xl text-gray-300 hover:bg-purple-900 transition-colors cursor-pointer">近期热剧</span>
+                    <span class="px-4 py-2 bg-[#222] rounded-xl text-gray-300 hover:bg-purple-900 transition-colors cursor-pointer">经典老片</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 特色介绍 -->
+        <div class="mt-16">
+            <h2 class="text-2xl font-bold text-center mb-8 gradient-text">平台特色功能</h2>
+            <div class="feature-list">
+                <div class="feature-card">
+                    <div class="feature-icon">🎥</div>
+                    <h3>免费观看</h3>
+                    <p>无广告、无收费，所有视频内容免费提供，享受纯净观影体验。</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>安全可靠</h3>
+                    <p>严格的源站检测，过滤危险链接，保护用户隐私和设备安全。</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🌐</div>
+                    <h3>多源聚合</h3>
+                    <p>聚合多个视频源站内容，搜索更全面，资源更丰富。</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 功能按钮 -->
+        <div class="buttons-container">
+            <button class="action-button">
+                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 10.5V6.75h4.125m-4.125 0l5.25 5.25M4.5 10.5h10.5m-10.5 0v6.75H15m0 0l-5.25-5.25"></path>
                 </svg>
+                导入配置
             </button>
-            <h3 class="text-xl font-bold gradient-text mx-auto">观看历史</h3>
-            <div class="w-4"></div> <!-- 添加一个占位元素以确保标题居中 -->
-        </div>
-        <div id="historyList" class="pb-4">
-            <!-- 历史记录将在这里动态显示 -->
-            <div class="text-center text-gray-500 py-8">暂无观看记录</div>
-        </div>
-        <div class="mt-4 text-center sticky bottom-0 pb-2 pt-2 bg-[#111]">
-            <button onclick="clearViewingHistory()"
-                class="px-4 py-2 w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:from-indigo-600 hover:via-purple-600 hover:to-pink-600 text-white rounded-lg text-sm transition-all duration-300 shadow-md hover:shadow-lg">
-                清空历史记录
-            </button>
-        </div>
-    </div>
-
-    <!-- 设置面板 -->
-    <div id="settingsPanel"
-        class="settings-panel fixed right-0 top-0 h-full w-80 bg-[#111] border-l border-[#333] p-6 z-40 overflow-y-auto"
-        aria-label="设置面板" aria-hidden="true">
-        <div class="flex justify-between items-center mb-6">
-            <h3 class="text-xl font-bold gradient-text">设置</h3>
-            <button onclick="toggleSettings()" class="close-btn">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
-                    </path>
+            
+            <button class="action-button bg-gradient-to-r from-blue-500 to-teal-500">
+                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"></path>
                 </svg>
+                导出配置
+            </button>
+            
+            <button class="action-button bg-gradient-to-r from-orange-500 to-red-500">
+                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"></path>
+                </svg>
+                清除Cookie
             </button>
         </div>
-        <div class="space-y-5">
-            <!-- 数据源设置区域 -->
-            <div class="p-3 bg-[#151515] rounded-lg shadow-inner">
-                <label class="block text-sm font-medium text-gray-400 mb-3 border-b border-[#333] pb-1">数据源设置</label>
-
-                <!-- 批量操作按钮 -->
-                <div class="flex space-x-2 mb-3">
-                    <button onclick="selectAllAPIs(true)"
-                        class="px-2 py-1 bg-[#333] hover:bg-[#444] text-white text-xs rounded">全选</button>
-                    <button onclick="selectAllAPIs(false)"
-                        class="px-2 py-1 bg-[#333] hover:bg-[#444] text-white text-xs rounded">全不选</button>
-                    <button onclick="selectAllAPIs(true, true)"
-                        class="px-2 py-1 bg-[#333] hover:bg-[#444] text-white text-xs rounded">全选普通资源</button>
-                </div>
-
-                <!-- API选择区域 - 使用滚动区域 -->
-                <div class="max-h-40 overflow-y-auto bg-[#191919] p-2 rounded-lg mb-3">
-                    <div id="apiCheckboxes">
-                        <!-- 这里将动态插入API复选框 -->
-                    </div>
-                </div>
-
-                <!-- API信息显示 -->
-                <div class="text-xs text-gray-500 flex justify-between items-center">
-                    <span>已选API数量：<span id="selectedApiCount" class="text-white">0</span></span>
-                    <span id="siteStatus" class="ml-2"></span>
-                </div>
-            </div>
-
-            <!-- 自定义API管理区域 -->
-            <div class="p-3 bg-[#151515] rounded-lg shadow-inner">
-                <div class="flex justify-between items-center mb-2">
-                    <label
-                        class="block text-sm font-medium text-gray-400 border-b border-[#333] w-full pb-1">自定义API</label>
-                    <button onclick="showAddCustomApiForm()"
-                        class="bg-[#333] hover:bg-[#444] text-white w-6 h-6 rounded-full text-center leading-none text-lg ml-1">+</button>
-                </div>
-                <div id="customApisList" class="max-h-32 overflow-y-auto mb-2">
-                    <!-- 自定义API将显示在这里 -->
-                </div>
-
-                <!-- 添加自定义API表单 (默认隐藏) -->
-                <div id="addCustomApiForm" class="hidden mt-2 p-2 bg-[#191919] rounded-lg">
-                    <input type="text" id="customApiName" placeholder="API名称"
-                        class="w-full bg-[#222] border border-[#333] text-white px-2 py-1 rounded mb-2"
-                        autocomplete="off">
-                    <input type="text" id="customApiUrl" placeholder="https://abc.com"
-                        class="w-full bg-[#222] border border-[#333] text-white px-2 py-1 rounded mb-2"
-                        autocomplete="off">
-                    <!-- 新增 detail 地址输入框 -->
-                    <input type="text" id="customApiDetail" placeholder="detail地址（可选）"
-                        class="w-full bg-[#222] border border-[#333] text-white px-2 py-1 rounded mb-2"
-                        autocomplete="off">
-                    <!-- 添加成人内容切换 -->
-                    <div class="flex items-center mb-2">
-                        <input type="checkbox" id="customApiIsAdult"
-                            class="form-checkbox h-4 w-4 text-pink-500 bg-[#222] border border-[#333]">
-                        <label for="customApiIsAdult" class="ml-2 text-xs text-pink-400">黄色资源站</label>
-                    </div>
-                    <div class="flex space-x-2">
-                        <button onclick="addCustomApi()"
-                            class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-xs">添加</button>
-                        <button onclick="cancelAddCustomApi()"
-                            class="bg-[#444] hover:bg-[#555] text-white px-3 py-1 rounded text-xs">取消</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 内容过滤设置区域 -->
-            <div class="p-3 bg-[#151515] rounded-lg shadow-inner">
-                <label class="block text-sm font-medium text-gray-400 mb-3 border-b border-[#333] pb-1">功能开关</label>
-
-                <!-- 黄色内容过滤开关 -->
-                <div class="flex flex-col mb-3 pb-3 border-b border-[#222] relative">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <label class="text-sm font-medium text-gray-400">黄色内容过滤</label>
-                            <p class="text-xs text-gray-500 mt-1 filter-description">过滤"伦理片"等黄色内容</p>
-                        </div>
-                        <div class="relative inline-block w-12 align-middle select-none">
-                            <input type="checkbox" id="yellowFilterToggle"
-                                class="opacity-0 absolute w-full h-full cursor-pointer z-10">
-                            <div
-                                class="toggle-bg bg-[#333] w-12 h-6 rounded-full transition-colors duration-300 ease-in-out">
-                            </div>
-                            <div
-                                class="toggle-dot absolute w-5 h-5 bg-white rounded-full top-0.5 left-0.5 transition-transform duration-300 ease-in-out">
-                            </div>
-                        </div>
-                    </div>
-                    <!-- 警告提示将在这里动态插入 -->
-                </div>
-
-                <!-- 广告过滤开关 -->
-                <div class="flex items-center justify-between mb-3 pb-3 border-b border-[#222]">
-                    <div>
-                        <label class="text-sm font-medium text-gray-400">分片广告过滤</label>
-                        <p class="text-xs text-gray-500 mt-1">关闭可减少旧版浏览器卡顿</p>
-                    </div>
-                    <div class="relative inline-block w-12 align-middle select-none">
-                        <input type="checkbox" id="adFilterToggle"
-                            class="opacity-0 absolute w-full h-full cursor-pointer z-10">
-                        <div
-                            class="toggle-bg bg-[#333] w-12 h-6 rounded-full transition-colors duration-300 ease-in-out">
-                        </div>
-                        <div
-                            class="toggle-dot absolute w-5 h-5 bg-white rounded-full top-0.5 left-0.5 transition-transform duration-300 ease-in-out">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 豆瓣热门开关 -->
-                <div class="flex items-center justify-between">
-                    <div>
-                        <label class="text-sm font-medium text-gray-400">豆瓣热门推荐</label>
-                        <p class="text-xs text-gray-500 mt-1">首页显示豆瓣热门影视内容</p>
-                    </div>
-                    <div class="relative inline-block w-12 align-middle select-none">
-                        <input type="checkbox" id="doubanToggle"
-                            class="opacity-0 absolute w-full h-full cursor-pointer z-10">
-                        <div
-                            class="toggle-bg bg-[#333] w-12 h-6 rounded-full transition-colors duration-300 ease-in-out">
-                        </div>
-                        <div
-                            class="toggle-dot absolute w-5 h-5 bg-white rounded-full top-0.5 left-0.5 transition-transform duration-300 ease-in-out">
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 一般功能区域 -->
-            <div class="p-3 bg-[#151515] rounded-lg shadow-inner">
-                <label class="block text-sm font-medium text-gray-400 mb-3 border-b border-[#333] pb-1">一般功能</label>
-                <button onclick="importConfig()"
-                    class="px-4 py-2 w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:from-indigo-600 hover:via-purple-600 hover:to-pink-600 text-white rounded-lg text-sm transition-all duration-300 shadow-md hover:shadow-lg mb-2">导入配置</button>
-                <button onclick="exportConfig()"
-                    class="px-4 py-2 mb-2 w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:from-indigo-600 hover:via-purple-600 hover:to-pink-600 text-white rounded-lg text-sm transition-all duration-300 shadow-md hover:shadow-lg">导出配置</button>
-                <button onclick="clearLocalStorage()"
-                    class="px-4 py-2 w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:from-indigo-600 hover:via-purple-600 hover:to-pink-600 text-white rounded-lg text-sm transition-all duration-300 shadow-md hover:shadow-lg">清除Cookie</button>
-            </div>
-        </div>
     </div>
-
-    <div class="container mx-auto px-4 py-8 flex flex-col h-screen">
-        <div class="flex-1 flex flex-col">
-            <!-- 网站标志和口号 -->
-            <header class="text-center mb-2">
-                <div class="flex justify-center items-center mb-4">
-                    <a href="#" onclick="resetToHome(); return false;" class="flex items-center">
-                        <img src="image/logo.png" alt="iSweeTv" class="w-8 h-8 mr-2">
-                        <span class="text-3xl font-bold gradient-text">iSweeTv</span>
-                    </a>
-                </div>
-            </header>
-
-
-            <div id="searchArea" class="flex-1 flex flex-col items-center justify-center">
-                <div class="w-full max-w-2xl">
-                    <div class="flex items-stretch mb-3 h-14 shadow-lg rounded-lg overflow-hidden">
-                        <!-- 首页按钮 -->
-                        <button onclick="resetToHome()"
-                            class="w-20 sm:w-24 flex items-center justify-center bg-white text-black font-medium hover:bg-gray-200 transition-colors"
-                            aria-label="返回首页" title="返回首页">
-                            首页
-                        </button>
-                        <!-- 搜索输入 -->
-                        <input type="text" id="searchInput"
-                            class="flex-1 bg-[#111] border-y border-[#333] text-white px-6 py-0 focus:outline-none transition-colors"
-                            placeholder="搜索你喜欢的视频..." autocomplete="off" aria-label="视频搜索框"
-                            oninput="toggleClearButton()">
-                        <!-- 清空按钮 -->
-                        <button id="clearSearchInput"
-                            class="flex pr-2 bg-[#111] border-y border-[#333] items-center justify-center text-gray-400 hover:text-white hidden"
-                            onclick="clearSearchInput()" aria-label="清空搜索框" title="清空搜索框">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M6 18L18 6M6 6l12 12"></path>
-                            </svg>
-                        </button>
-                        <!-- 搜索按钮 -->
-                        <button onclick="search()"
-                            class="w-20 sm:w-24 flex items-center justify-center bg-white text-black font-medium hover:bg-gray-200 transition-colors"
-                            aria-label="搜索按钮">
-                            搜索
-                        </button>
-                    </div>
-
-                    <!-- 添加最近搜索记录部分 -->
-                    <div id="recentSearches" class="mt-4 flex flex-wrap gap-2" aria-label="最近搜索记录">
-                        <!-- 这里会动态插入最近的搜索记录 -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- 豆瓣热门推荐区域: 默认隐藏，现在位于搜索区域下方，调整宽度 -->
-            <div id="doubanArea" class="w-full my-8 hidden">
-                <div class="mx-auto max-w-screen-xl px-2">
-                    <!-- 顶部控制区域 -->
-                    <div class="mb-4">
-                        <!-- 标题和刷新按钮一行 -->
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="flex items-center">
-                                <!-- 添加电影/电视剧切换开关 -->
-                                <div class="flex items-center bg-[#222] rounded-full p-1">
-                                    <button id="douban-movie-toggle"
-                                        class="px-3 py-1 text-sm rounded-full bg-pink-600 text-white">电影</button>
-                                    <button id="douban-tv-toggle"
-                                        class="px-3 py-1 text-sm rounded-full text-gray-300 hover:text-white">电视剧</button>
-                                </div>
-                            </div>
-                            <button id="douban-refresh"
-                                class="text-sm px-3 py-1 bg-pink-600 hover:bg-pink-700 text-white rounded-lg flex items-center gap-1">
-                                <span>换一批</span>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                                    stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                                </svg>
-                            </button>
-                        </div>
-                        <!-- 分类标签独立成行，添加滚动支持以适应移动设备 -->
-                        <div class="overflow-x-auto pb-2">
-                            <div id="douban-tags" class="flex space-x-2 min-w-max"></div>
-                        </div>
-                    </div>
-
-                    <!-- 推荐内容 -->
-                    <div id="douban-results"
-                        class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-3">
-                    </div>
-                    <!-- 底部控制区域 - 复制了顶部的电影/电视剧切换 -->
-                    <div class="mt-6 mb-4">
-                        <!-- 标题和刷新按钮一行 -->
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="flex items-center">
-                                <!-- 添加底部电影/电视剧切换开关 -->
-                                <div class="flex items-center bg-[#222] rounded-full p-1">
-                                    <button id="douban-movie-toggle-bottom"
-                                        class="px-3 py-1 text-sm rounded-full bg-pink-600 text-white">电影</button>
-                                    <button id="douban-tv-toggle-bottom"
-                                        class="px-3 py-1 text-sm rounded-full text-gray-300 hover:text-white">电视剧</button>
-                                </div>
-                            </div>
-                            <button id="douban-refresh-bottom"
-                                class="text-sm px-3 py-1 bg-pink-600 hover:bg-pink-700 text-white rounded-lg flex items-center gap-1">
-                                <span>换一批</span>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                                    stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 搜索结果：初始隐藏 -->
-            <div id="resultsArea" class="w-full hidden">
-                <div class="mx-auto max-w-7xl px-2"> <!-- 添加最大宽度限制并居中 -->
-                    <div class="flex justify-end items-center mb-4">
-                        <div class="text-sm text-gray-400">
-                            <span id="searchResultsCount">0</span> 个结果
-                        </div>
-                    </div>
-                    <!-- 修改网格布局以适应大一些的横向卡片 -->
-                    <div id="results" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                        <!-- 结果将在这里动态生成 -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 页脚区域 -->
-    <footer class="footer mt-8 py-6 border-t border-[#333] bg-[#0a0a0a]">
-        <div class="container mx-auto px-4">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <div class="mb-4 md:mb-0">
-                    <div class="flex items-center justify-center md:justify-start">
-                        <img src="image/logo.png" alt="iSweeTv" class="w-4 h-4 mr-1">
-                        <span class="gradient-text font-bold">iSweeTV</span>
-                    </div>
-                    <p class="text-gray-500 text-sm mt-2 text-center md:text-left">© 2025 PeiFeng.Li - iSweeTv</p>
-                </div>
-            </div>
-        </div>
+    
+    <footer>
+        <p>© 2025 iSweeTv - 甜蜜观影 - 共享精彩</p>
+        <p class="mt-2 text-sm">免责声明：本站所有视频均来自第三方采集站，视频中广告与本站无关</p>
     </footer>
-
-    <!-- 详情模态框 -->
-    <div id="modal"
-        class="fixed inset-0 bg-black/95 hidden flex items-center justify-center transition-opacity duration-300 z-40">
-        <div class="bg-[#111] p-8 rounded-lg w-11/12 max-w-4xl border border-[#333] max-h-[90vh] flex flex-col">
-            <div class="flex justify-between items-center mb-6 flex-none">
-                <h2 id="modalTitle" class="text-2xl font-bold gradient-text break-words pr-4 max-w-[80%]"></h2>
-                <button onclick="closeModal()"
-                    class="text-gray-400 hover:text-white text-2xl transition-colors flex-shrink-0">&times;</button>
-            </div>
-            <div id="modalContent" class="overflow-auto flex-1 min-h-0">
-                <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2">
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 密码验证弹窗 -->
-    <div id="passwordModal"
-        class="fixed inset-0 bg-black/95 hidden items-center justify-center z-[65] transition-opacity duration-300">
-        <div class="bg-[#111] p-8 rounded-lg w-11/12 max-w-md border border-[#333] max-h-[90vh] flex flex-col">
-            <div class="flex justify-between items-center mb-6 flex-none">
-                <h2 class="text-2xl font-bold gradient-text">iSweeTv</h2>
-            </div>
-            <div class="mb-6">
-                <p class="text-gray-300 mb-4">请输入密码继续访问</p>
-                <form id="passwordForm" onsubmit="handlePasswordSubmit(); return false;">
-                    <input type="text" name="username" id="username" autocomplete="username" style="display:none"
-                        tabindex="-1" aria-hidden="true">
-                    <input type="password" id="passwordInput"
-                        class="w-full bg-[#111] border border-[#333] text-white px-4 py-3 rounded-lg focus:outline-none focus:border-white transition-colors"
-                        placeholder="密码..." autocomplete="new-password">
-                    <button id="passwordSubmitBtn" type="submit"
-                        class="mt-4 w-full bg-blue-6 00 hover:bg-blue-700 text-white px-4 py-2 rounded">提交</button>
-                </form>
-                <p id="passwordError" class="text-red-500 mt-2 hidden">密码错误，请重试</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- 版权声明弹窗 -->
-    <div id="disclaimerModal" class="fixed inset-0 bg-black/90 hidden items-center justify-center z-[60]">
-        <div class="bg-[#111] p-8 rounded-lg border border-[#333] w-11/12 max-w-2xl max-h-[90vh] overflow-y-auto">
-            <h2 class="text-2xl font-bold gradient-text mb-6 text-center">使用声明</h2>
-            <div class="text-gray-300 space-y-4">
-                <p>
-                    欢迎使用 iSweeTv。在开始使用前，请您了解并同意以下条款：
-                </p>
-                <p>
-                    <strong class="text-blue-400">服务性质：</strong> iSweeTV 仅提供视频搜索服务，不直接提供、存储或上传任何视频内容。所有搜索结果均来自第三方公开接口。
-                </p>
-                <p>
-                    <strong class="text-blue-400">用户责任：</strong> 用户在使用本站服务时，须遵守相关法律法规，不得利用搜索结果从事侵权行为，如下载、传播未经授权的作品等。
-                </p>
-                <p>
-                    <strong class="text-blue-400">广告风险提示：</strong>
-                    本站所有视频均来自第三方采集站，视频中出现的广告与本站无关，请勿相信或点击视频中的任何广告内容，谨防上当受骗。
-                </p>
-            </div>
-            <div class="mt-6 flex justify-center">
-                <button id="acceptDisclaimerBtn"
-                    class="px-6 py-3 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white font-semibold rounded-lg hover:shadow-lg transition-all duration-300">
-                    我已了解并接受
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- 错误提示框 -->
-    <div id="toast"
-        class="fixed top-4 left-1/2 -translate-x-1/2 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg transform transition-all duration-300 opacity-0 -translate-y-full z-50">
-        <p id="toastMessage"></p>
-    </div>
-
-    <!-- 添加 loading 提示框 -->
-    <div id="loading" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-50">
-        <div class="bg-[#111] p-8 rounded-lg border border-[#333] flex items-center space-x-4">
-            <div class="w-8 h-8 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
-            <p class="text-white text-lg">加载中...</p>
-        </div>
-    </div>
-
-    <!-- JSON-LD 结构化数据 -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "WebSite",
-        "name": "LibreTV",
-        "url": "https://libretv.is-an.org/",
-        "description": "免费在线视频搜索与观看平台",
-        "potentialAction": {
-            "@type": "SearchAction",
-            "target": "https://libretv.is-an.org/?s={search_term_string}",
-            "query-input": "required name=search_term_string"
-        }
-    }
-    </script>
-
-    <!-- 引入纯 JS sha256（HTTP 下依然可用） -->
-    <script src="libs/sha256.min.js"></script>
-    <script>
-        // 保存原始 js‑sha256 实现，避免被 password.js 覆盖
-        window._jsSha256 = window.sha256;
-    </script>
-    <script src="js/config.js"></script>
-    <script src="js/ui.js"></script>
-    <script src="js/api.js"></script>
-    <script src="js/douban.js"></script>
-    <script src="js/password.js"></script>
-    <script src="js/app.js"></script>
 
     <!-- 启动画面控制逻辑 -->
     <script>
@@ -618,27 +567,48 @@
             } else {
                 splashScreen.style.display = 'none';
             }
+            
+            // 搜索框输入逻辑
+            const searchInput = document.getElementById('searchInput');
+            const clearBtn = document.getElementById('clearSearchInput');
+            
+            function toggleClearButton() {
+                if (searchInput.value.trim() !== '') {
+                    clearBtn.classList.remove('hidden');
+                } else {
+                    clearBtn.classList.add('hidden');
+                }
+            }
+            
+            searchInput.addEventListener('input', toggleClearButton);
+            
+            clearBtn.addEventListener('click', function() {
+                searchInput.value = '';
+                clearBtn.classList.add('hidden');
+                searchInput.focus();
+            });
+            
+            // 模拟搜索功能
+            const searchBtn = document.querySelector('.search-button:last-child');
+            searchBtn.addEventListener('click', function() {
+                if (searchInput.value.trim() !== '') {
+                    alert(`搜索关键词: ${searchInput.value.trim()}`);
+                } else {
+                    alert('请输入搜索内容');
+                }
+            });
+            
+            // 示例列表点击事件
+            const recentItems = document.querySelectorAll('#recentSearches > span');
+            recentItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    searchInput.value = this.textContent;
+                    toggleClearButton();
+                    alert(`搜索关键词: ${this.textContent}`);
+                });
+            });
         });
     </script>
-
-    <!-- PWA 注册 -->
-    <script src="js/pwa-register.js"></script>
-
-    <!-- 环境变量注入脚本 -->
-    <script>
-        // 创建全局环境变量对象
-        window.__ENV__ = window.__ENV__ || {};
-
-        // 注入服务器端环境变量 (将由服务器端替换)
-        // PASSWORD 变量将在这里被服务器端注入
-        window.__ENV__.PASSWORD = "{{PASSWORD}}";
-    </script>
-
-    <!-- 版本检测脚本 -->
-    <script src="js/version-check.js"></script>
-
-    <!-- 添加弹窗和URL搜索参数处理脚本 -->
-    <script src="js/index-page.js"></script>
 </body>
 
 </html>
