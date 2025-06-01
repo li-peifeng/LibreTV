@@ -3,7 +3,7 @@
 <div align="center">
   <img src="image/logo.png" alt="iSweeTv Logo" width="120">
   <br>
-  <p><strong>自由观影，畅享精彩</strong></p>
+  <p><strong>甜蜜观影，共享精彩</strong></p>
 </div>
 
 ## 📺 项目简介
