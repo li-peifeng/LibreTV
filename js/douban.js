@@ -381,6 +381,19 @@ function setupDoubanRefreshBtn() {
     };
 }
 
+    const btn = document.getElementById('douban-refresh-bottom');
+    if (!btn) return;
+    
+    btn.onclick = function() {
+        doubanPageStart += doubanPageSize;
+        if (doubanPageStart > 9 * doubanPageSize) {
+            doubanPageStart = 0;
+        }
+        
+        renderRecommend(doubanCurrentTag, doubanPageSize, doubanPageStart);
+    };
+}
+
 function fetchDoubanTags() {
     const movieTagsTarget = `https://movie.douban.com/j/search_tags?type=movie`
     fetchDoubanData(movieTagsTarget)
