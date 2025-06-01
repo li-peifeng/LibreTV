@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -134,45 +135,46 @@
         }
     </style>
 </head>
+
 <body>
     <div class="redirect-container">
         <div class="logo-container">
             <img src="image/logo.png" alt="iSweeTv" class="logo-icon">
             <h1 class="logo-text">iSweeTv</h1>
         </div>
-        
+
         <div class="redirect-message">正在准备播放，请稍候...</div>
-        
+
         <div class="progress-container">
             <div class="progress-bar" id="progress-bar"></div>
         </div>
-        
+
         <div class="progress-text" id="progress-text">0%</div>
-        
+
         <div class="redirect-hint">
             如果长时间没有响应，请<a id="manual-redirect" href="#">点击这里</a>
         </div>
     </div>
 
     <script>
-        window.onload = function() {
+        window.onload = function () {
             // 获取当前URL的查询参数
             const currentParams = new URLSearchParams(window.location.search);
-            
+
             // 创建player.html的URL对象
             const playerUrlObj = new URL("player.html", window.location.origin);
-            
+
             // 确保保留所有原始参数
             currentParams.forEach((value, key) => {
                 playerUrlObj.searchParams.set(key, value);
             });
-            
+
             // 获取来源URL (如果存在)
             const referrer = document.referrer;
-            
+
             // 获取当前URL中的返回URL参数（如果有）
             const backUrl = currentParams.get('back');
-            
+
             // 确定返回URL的优先级
             let returnUrl = '';
             if (backUrl) {
@@ -184,24 +186,24 @@
             } else {
                 returnUrl = '/';
             }
-            
+
             // 将返回URL添加到player.html的参数中
             if (!playerUrlObj.searchParams.has('returnUrl')) {
                 playerUrlObj.searchParams.set('returnUrl', encodeURIComponent(returnUrl));
             }
-            
+
             // 同时保存在localStorage中，作为备用
             localStorage.setItem('lastPageUrl', returnUrl);
-            
+
             // 标记来自搜索页面
             if (returnUrl.includes('/s=') || returnUrl.includes('?s=')) {
                 localStorage.setItem('cameFromSearch', 'true');
                 localStorage.setItem('searchPageUrl', returnUrl);
             }
-            
+
             // 获取最终的URL字符串
             const finalPlayerUrl = playerUrlObj.toString();
-            
+
             // 更新手动重定向链接
             const manualRedirect = document.getElementById('manual-redirect');
             if (manualRedirect) {
@@ -213,28 +215,28 @@
             if (metaRefresh) {
                 metaRefresh.content = `3; url=${finalPlayerUrl}`;
             }
-            
+
             // 进度条元素
             const progressBar = document.getElementById('progress-bar');
             const progressText = document.getElementById('progress-text');
-            
+
             // 进度条动画
             let progress = 0;
             const interval = 30; // 更新间隔(ms)
             const totalTime = 2800; // 总时间(ms)
             const increment = (interval / totalTime) * 100;
-            
+
             const progressInterval = setInterval(() => {
                 progress += increment;
                 if (progress >= 100) {
                     progress = 100;
                     clearInterval(progressInterval);
                 }
-                
+
                 progressBar.style.width = progress + '%';
                 progressText.textContent = Math.round(progress) + '%';
             }, interval);
-            
+
             // 重定向到播放器页面
             setTimeout(() => {
                 clearInterval(progressInterval);
@@ -243,4 +245,5 @@
         };
     </script>
 </body>
+
 </html>
