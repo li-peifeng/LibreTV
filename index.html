@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="zh">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,12 +14,106 @@
     <link rel="apple-touch-icon" href="image/logo-black.png">
     <link rel="manifest" href="manifest.json">
 
+    <style>
+        /* 新的启动画面样式 */
+        #splashScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #0a0a0a;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .splash-logo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #1a1a1a, #0a0a0a);
+            box-shadow: 0 0 30px rgba(200, 50, 205, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+            animation: pulse 3s infinite;
+        }
+
+        .splash-logo img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .splash-title {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(90deg, #8a2be2, #ff00ff, #ff69b4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+
+        .splash-description {
+            color: #bbb;
+            text-align: center;
+            margin-bottom: 40px;
+            max-width: 80%;
+            line-height: 1.6;
+        }
+
+        .loading-bar-container {
+            width: 80%;
+            max-width: 300px;
+            height: 4px;
+            background-color: #333;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .loading-bar {
+            height: 100%;
+            width: 0;
+            background: linear-gradient(to right, #6e45e2, #8a2be2, #da22ff);
+            transition: width 0.5s ease;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(200, 50, 205, 0.3); }
+            70% { box-shadow: 0 0 0 15px rgba(200, 50, 205, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(200, 50, 205, 0); }
+        }
+
+        .fade-out {
+            opacity: 0;
+            visibility: hidden;
+        }
+    </style>
+    
     <script src="libs/tailwindcss.min.js"></script>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/index.css">
 </head>
 
 <body class="page-bg text-white">
+    <!-- 启动画面 -->
+    <div id="splashScreen">
+        <div class="splash-logo">
+            <!-- 使用nomedia.png作为启动图像 -->
+            <img src="image/logo.png" alt="iSweeTv Logo">
+        </div>
+        <div class="splash-title">iSweeTv</div>
+        <div class="splash-description">免费在线视频搜索与观看平台 - 轻松寻找您喜欢的影视内容</div>
+        <div class="loading-bar-container">
+            <div class="loading-bar" id="progressBar"></div>
+        </div>
+    </div>
+
     <!-- 将历史记录按钮移到左上角，并缩小尺寸 -->
     <div class="fixed top-4 left-4 z-10">
         <button onclick="toggleHistory(event)"
@@ -190,10 +283,10 @@
                         <input type="checkbox" id="adFilterToggle"
                             class="opacity-0 absolute w-full h-full cursor-pointer z-10">
                         <div
-                            class="toggle-bg bg-[#333] w-12 h-6 rounded-full transition-colors duration-300 ease-in-out">
+                                class="toggle-bg bg-[#333] w-12 h-6 rounded-full transition-colors duration-300 ease-in-out">
                         </div>
                         <div
-                            class="toggle-dot absolute w-5 h-5 bg-white rounded-full top-0.5 left-0.5 transition-transform duration-300 ease-in-out">
+                                class="toggle-dot absolute w-5 h-5 bg-white rounded-full top-0.5 left-0.5 transition-transform duration-300 ease-in-out">
                         </div>
                     </div>
                 </div>
@@ -206,12 +299,12 @@
                     </div>
                     <div class="relative inline-block w-12 align-middle select-none">
                         <input type="checkbox" id="doubanToggle"
-                            class="opacity-0 absolute w-full h-full cursor-pointer z-10">
+                                class="opacity-0 absolute w-full h-full cursor-pointer z-10">
                         <div
-                            class="toggle-bg bg-[#333] w-12 h-6 rounded-full transition-colors duration-300 ease-in-out">
+                                class="toggle-bg bg-[#333] w-12 h-6 rounded-full transition-colors duration-300 ease-in-out">
                         </div>
                         <div
-                            class="toggle-dot absolute w-5 h-5 bg-white rounded-full top-0.5 left-0.5 transition-transform duration-300 ease-in-out">
+                                class="toggle-dot absolute w-5 h-5 bg-white rounded-full top-0.5 left-0.5 transition-transform duration-300 ease-in-out">
                         </div>
                     </div>
                 </div>
@@ -221,11 +314,11 @@
             <div class="p-3 bg-[#151515] rounded-lg shadow-inner">
                 <label class="block text-sm font-medium text-gray-400 mb-3 border-b border-[#333] pb-1">一般功能</label>
                 <button onclick="importConfig()"
-                    class="px-4 py-2 w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:from-indigo-600 hover:via-purple-600 hover:to-pink-600 text-white rounded-lg text-sm transition-all duration-300 shadow-md hover:shadow-lg mb-2">导入配置</button>
+                        class="px-4 py-2 w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:from-indigo-600 hover:via-purple-600 hover:to-pink-600 text-white rounded-lg text-sm transition-all duration-300 shadow-md hover:shadow-lg mb-2">导入配置</button>
                 <button onclick="exportConfig()"
-                    class="px-4 py-2 mb-2 w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:from-indigo-600 hover:via-purple-600 hover:to-pink-600 text-white rounded-lg text-sm transition-all duration-300 shadow-md hover:shadow-lg">导出配置</button>
+                        class="px-4 py-2 mb-2 w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:from-indigo-600 hover:via-purple-600 hover:to-pink-600 text-white rounded-lg text-sm transition-all duration-300 shadow-md hover:shadow-lg">导出配置</button>
                 <button onclick="clearLocalStorage()"
-                    class="px-4 py-2 w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:from-indigo-600 hover:via-purple-600 hover:to-pink-600 text-white rounded-lg text-sm transition-all duration-300 shadow-md hover:shadow-lg">清除Cookie</button>
+                        class="px-4 py-2 w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:from-indigo-600 hover:via-purple-600 hover:to-pink-600 text-white rounded-lg text-sm transition-all duration-300 shadow-md hover:shadow-lg">清除Cookie</button>
             </div>
         </div>
     </div>
@@ -238,7 +331,7 @@
                     <a href="#" onclick="resetToHome(); return false;" class="flex items-center">
                         <svg class="w-10 h-10 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z">
+                                  d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z">
                             </path>
                         </svg>
                         <span class="text-3xl font-bold gradient-text">iSweeTv</span>
@@ -252,28 +345,28 @@
                     <div class="flex items-stretch mb-3 h-14 shadow-lg rounded-lg overflow-hidden">
                         <!-- 首页按钮 -->
                         <button onclick="resetToHome()"
-                            class="w-20 sm:w-24 flex items-center justify-center bg-white text-black font-medium hover:bg-gray-200 transition-colors"
-                            aria-label="返回首页" title="返回首页">
+                                class="w-20 sm:w-24 flex items-center justify-center bg-white text-black font-medium hover:bg-gray-200 transition-colors"
+                                aria-label="返回首页" title="返回首页">
                             首页
                         </button>
                         <!-- 搜索输入 -->
                         <input type="text" id="searchInput"
-                            class="flex-1 bg-[#111] border-y border-[#333] text-white px-6 py-0 focus:outline-none transition-colors"
-                            placeholder="搜索你喜欢的视频..." autocomplete="off" aria-label="视频搜索框"
-                            oninput="toggleClearButton()">
+                               class="flex-1 bg-[#111] border-y border-[#333] text-white px-6 py-0 focus:outline-none transition-colors"
+                               placeholder="搜索你喜欢的视频..." autocomplete="off" aria-label="视频搜索框"
+                               oninput="toggleClearButton()">
                         <!-- 清空按钮 -->
                         <button id="clearSearchInput"
-                            class="flex pr-2 bg-[#111] border-y border-[#333] items-center justify-center text-gray-400 hover:text-white hidden"
-                            onclick="clearSearchInput()" aria-label="清空搜索框" title="清空搜索框">
+                                class="flex pr-2 bg-[#111] border-y border-[#333] items-center justify-center text-gray-400 hover:text-white hidden"
+                                onclick="clearSearchInput()" aria-label="清空搜索框" title="清空搜索框">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M6 18L18 6M6 6l12 12"></path>
+                                      d="M6 18L18 6M6 6l12 12"></path>
                             </svg>
                         </button>
                         <!-- 搜索按钮 -->
                         <button onclick="search()"
-                            class="w-20 sm:w-24 flex items-center justify-center bg-white text-black font-medium hover:bg-gray-200 transition-colors"
-                            aria-label="搜索按钮">
+                                class="w-20 sm:w-24 flex items-center justify-center bg-white text-black font-medium hover:bg-gray-200 transition-colors"
+                                aria-label="搜索按钮">
                             搜索
                         </button>
                     </div>
@@ -296,18 +389,18 @@
                                 <!-- 添加电影/电视剧切换开关 -->
                                 <div class="flex items-center bg-[#222] rounded-full p-1">
                                     <button id="douban-movie-toggle"
-                                        class="px-3 py-1 text-sm rounded-full bg-pink-600 text-white">电影</button>
+                                            class="px-3 py-1 text-sm rounded-full bg-pink-600 text-white">电影</button>
                                     <button id="douban-tv-toggle"
-                                        class="px-3 py-1 text-sm rounded-full text-gray-300 hover:text-white">电视剧</button>
+                                            class="px-3 py-1 text-sm rounded-full text-gray-300 hover:text-white">电视剧</button>
                                 </div>
                             </div>
                             <button id="douban-refresh"
-                                class="text-sm px-3 py-1 bg-pink-600 hover:bg-pink-700 text-white rounded-lg flex items-center gap-1">
+                                    class="text-sm px-3 py-1 bg-pink-600 hover:bg-pink-700 text-white rounded-lg flex items-center gap-1">
                                 <span>换一批</span>
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                                    stroke="currentColor">
+                                     stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                          d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                                 </svg>
                             </button>
                         </div>
@@ -319,7 +412,7 @@
 
                     <!-- 推荐内容 -->
                     <div id="douban-results"
-                        class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-3">
+                         class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-3">
                     </div>
                     <!-- 底部控制区域 - 复制了顶部的电影/电视剧切换 -->
                     <div class="mt-6 mb-4">
@@ -329,18 +422,18 @@
                                 <!-- 添加底部电影/电视剧切换开关 -->
                                 <div class="flex items-center bg-[#222] rounded-full p-1">
                                     <button id="douban-movie-toggle-bottom"
-                                        class="px-3 py-1 text-sm rounded-full bg-pink-600 text-white">电影</button>
+                                            class="px-3 py-1 text-sm rounded-full bg-pink-600 text-white">电影</button>
                                     <button id="douban-tv-toggle-bottom"
-                                        class="px-3 py-1 text-sm rounded-full text-gray-300 hover:text-white">电视剧</button>
+                                            class="px-3 py-1 text-sm rounded-full text-gray-300 hover:text-white">电视剧</button>
                                 </div>
                             </div>
                             <button id="douban-refresh-bottom"
-                                class="text-sm px-3 py-1 bg-pink-600 hover:bg-pink-700 text-white rounded-lg flex items-center gap-1">
+                                    class="text-sm px-3 py-1 bg-pink-600 hover:bg-pink-700 text-white rounded-lg flex items-center gap-1">
                                 <span>换一批</span>
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                                    stroke="currentColor">
+                                     stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                          d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                                 </svg>
                             </button>
                         </div>
@@ -373,7 +466,7 @@
                     <div class="flex items-center justify-center md:justify-start">
                         <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z">
+                                  d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z">
                             </path>
                         </svg>
                         <span class="gradient-text font-bold">iSweeTV</span>
@@ -386,12 +479,12 @@
 
     <!-- 详情模态框 -->
     <div id="modal"
-        class="fixed inset-0 bg-black/95 hidden flex items-center justify-center transition-opacity duration-300 z-40">
+         class="fixed inset-0 bg-black/95 hidden flex items-center justify-center transition-opacity duration-300 z-40">
         <div class="bg-[#111] p-8 rounded-lg w-11/12 max-w-4xl border border-[#333] max-h-[90vh] flex flex-col">
             <div class="flex justify-between items-center mb-6 flex-none">
                 <h2 id="modalTitle" class="text-2xl font-bold gradient-text break-words pr-4 max-w-[80%]"></h2>
                 <button onclick="closeModal()"
-                    class="text-gray-400 hover:text-white text-2xl transition-colors flex-shrink-0">&times;</button>
+                        class="text-gray-400 hover:text-white text-2xl transition-colors flex-shrink-0">&times;</button>
             </div>
             <div id="modalContent" class="overflow-auto flex-1 min-h-0">
                 <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2">
@@ -402,7 +495,7 @@
 
     <!-- 密码验证弹窗 -->
     <div id="passwordModal"
-        class="fixed inset-0 bg-black/95 hidden items-center justify-center z-[65] transition-opacity duration-300">
+         class="fixed inset-0 bg-black/95 hidden items-center justify-center z-[65] transition-opacity duration-300">
         <div class="bg-[#111] p-8 rounded-lg w-11/12 max-w-md border border-[#333] max-h-[90vh] flex flex-col">
             <div class="flex justify-between items-center mb-6 flex-none">
                 <h2 class="text-2xl font-bold gradient-text">iSweeTv</h2>
@@ -411,12 +504,12 @@
                 <p class="text-gray-300 mb-4">请输入密码继续访问</p>
                 <form id="passwordForm" onsubmit="handlePasswordSubmit(); return false;">
                     <input type="text" name="username" id="username" autocomplete="username" style="display:none"
-                        tabindex="-1" aria-hidden="true">
+                           tabindex="-1" aria-hidden="true">
                     <input type="password" id="passwordInput"
-                        class="w-full bg-[#111] border border-[#333] text-white px-4 py-3 rounded-lg focus:outline-none focus:border-white transition-colors"
-                        placeholder="密码..." autocomplete="new-password">
+                           class="w-full bg-[#111] border border-[#333] text-white px-4 py-3 rounded-lg focus:outline-none focus:border-white transition-colors"
+                           placeholder="密码..." autocomplete="new-password">
                     <button id="passwordSubmitBtn" type="submit"
-                        class="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">提交</button>
+                            class="mt-4 w-full bg-blue-6 00 hover:bg-blue-700 text-white px-4 py-2 rounded">提交</button>
                 </form>
                 <p id="passwordError" class="text-red-500 mt-2 hidden">密码错误，请重试</p>
             </div>
@@ -444,7 +537,7 @@
             </div>
             <div class="mt-6 flex justify-center">
                 <button id="acceptDisclaimerBtn"
-                    class="px-6 py-3 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white font-semibold rounded-lg hover:shadow-lg transition-all duration-300">
+                        class="px-6 py-3 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white font-semibold rounded-lg hover:shadow-lg transition-all duration-300">
                     我已了解并接受
                 </button>
             </div>
@@ -453,7 +546,7 @@
 
     <!-- 错误提示框 -->
     <div id="toast"
-        class="fixed top-4 left-1/2 -translate-x-1/2 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg transform transition-all duration-300 opacity-0 -translate-y-full z-50">
+         class="fixed top-4 left-1/2 -translate-x-1/2 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg transform transition-all duration-300 opacity-0 -translate-y-full z-50">
         <p id="toastMessage"></p>
     </div>
 
@@ -493,6 +586,38 @@
     <script src="js/douban.js"></script>
     <script src="js/password.js"></script>
     <script src="js/app.js"></script>
+    
+    <!-- 启动画面控制逻辑 -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const splashScreen = document.getElementById('splashScreen');
+            const progressBar = document.getElementById('progressBar');
+            const splashVisible = sessionStorage.getItem('splashShown') !== 'true';
+            
+            // 仅在首次访问或刷新时显示启动画面
+            if (splashVisible) {
+                let progress = 0;
+                const loadingInterval = setInterval(() => {
+                    if (progress >= 100) {
+                        clearInterval(loadingInterval);
+                        splashScreen.classList.add('fade-out');
+                        sessionStorage.setItem('splashShown', 'true');
+                        
+                        // 淡出动画结束后移除启动画面
+                        setTimeout(() => {
+                            splashScreen.style.display = 'none';
+                        }, 500);
+                    } else {
+                        progress += 1 + Math.random() * 4;
+                        if (progress > 100) progress = 100;
+                        progressBar.style.width = progress + '%';
+                    }
+                }, 50);
+            } else {
+                splashScreen.style.display = 'none';
+            }
+        });
+    </script>
 
     <!-- PWA 注册 -->
     <script src="js/pwa-register.js"></script>
@@ -513,5 +638,4 @@
     <!-- 添加弹窗和URL搜索参数处理脚本 -->
     <script src="js/index-page.js"></script>
 </body>
-
 </html>
