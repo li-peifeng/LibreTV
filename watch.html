@@ -6,21 +6,303 @@
     <meta http-equiv="refresh" content="3; url=player.html">
     <title>正在跳转到播放器...</title>
     <link rel="manifest" href="manifest.json">
-    <link rel="stylesheet" href="css/watch.css">
-    <script src="js/watch.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #ffffff;
+            overflow: hidden;
+        }
+        
+        .redirect-container {
+            text-align: center;
+            width: 100%;
+            max-width: 500px;
+            padding: 30px;
+            border-radius: 15px;
+            background: rgba(19, 28, 46, 0.8);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+            gap: 15px;
+        }
+        
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            fill: none;
+            stroke: #4cc9f0;
+            stroke-width: 2;
+        }
+        
+        .logo-text {
+            font-size: 32px;
+            font-weight: 700;
+            background: linear-gradient(90deg, #4cc9f0, #4361ee);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .progress-container {
+            width: 100%;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #4cc9f0, #4361ee);
+            border-radius: 5px;
+            transition: width 0.5s ease;
+            box-shadow: 0 0 10px rgba(76, 201, 240, 0.5);
+        }
+        
+        .loading-animation {
+            display: block;
+            width: 50px;
+            height: 50px;
+            margin: 30px auto;
+            position: relative;
+        }
+        
+        .loading-animation:before {
+            content: "";
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 5px solid transparent;
+            border-top-color: #4361ee;
+            border-bottom-color: #4361ee;
+            position: absolute;
+            top: 0;
+            left: 0;
+            animation: spin 1.5s linear infinite;
+        }
+        
+        .redirect-message {
+            font-size: 22px;
+            font-weight: 600;
+            margin: 10px 0;
+            letter-spacing: 1px;
+            color: #f8f9fa;
+        }
+        
+        #redirect-status {
+            font-size: 16px;
+            color: #adb5bd;
+            margin: 15px 0;
+        }
+        
+        .redirect-hint {
+            color: #ced4da;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+        
+        #manual-redirect {
+            color: #4cc9f0;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        #manual-redirect:after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #4cc9f0, #4361ee);
+            transition: width 0.3s ease;
+        }
+        
+        #manual-redirect:hover:after {
+            width: 100%;
+        }
+        
+        .counter {
+            font-size: 18px;
+            color: #4cc9f0;
+            margin-top: 10px;
+            font-weight: 600;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(76, 201, 240, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(76, 201, 240, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(76, 201, 240, 0); }
+        }
+        
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: rgba(76, 201, 240, 0.5);
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .redirect-container {
+                width: 90%;
+                padding: 20px;
+            }
+            
+            .logo-text {
+                font-size: 26px;
+            }
+            
+            .redirect-message {
+                font-size: 20px;
+            }
+        }
+    </style>
 </head>
 <body>
+    <!-- 背景粒子效果 -->
+    <div class="particles"></div>
+    
     <div class="redirect-container">
         <div class="logo-container">
-            <svg class="logo-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+            <svg class="logo-icon" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
             </svg>
             <h1 class="logo-text">iSweeTv</h1>
         </div>
         <div class="loading-animation"></div>
         <div class="redirect-message">正在加载播放器...</div>
+        
+        <!-- 进度条容器 -->
+        <div class="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+        
         <div id="redirect-status">准备视频数据中，请稍候...</div>
+        <div class="counter" id="counter">3秒后自动跳转</div>
         <p class="redirect-hint">如果页面没有自动跳转，请 <a href="player.html" id="manual-redirect">点击这里</a></p>
     </div>
+
+    <script>
+        // 创建动态背景粒子
+        function createParticles() {
+            const particlesContainer = document.querySelector('.particles');
+            const particleCount = 20;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // 随机位置
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                
+                // 随机大小
+                const size = Math.random() * 3 + 1;
+                
+                // 随机延迟动画
+                const delay = Math.random() * 5;
+                
+                particle.style.left = `${posX}%`;
+                particle.style.top = `${posY}%`;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.animationDuration = `${Math.random() * 5 + 5}s`;
+                particle.style.animationDelay = `${delay}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        // 更新进度条和倒计时
+        function updateProgressBar() {
+            const progressBar = document.getElementById('progress-bar');
+            const counter = document.getElementById('counter');
+            const redirectStatus = document.getElementById('redirect-status');
+            
+            const statusMessages = [
+                "准备视频数据中，请稍候...",
+                "正在连接服务器...",
+                "获取视频信息...",
+                "检查网络状态...",
+                "准备就绪，即将跳转..."
+            ];
+            
+            let progress = 0;
+            let seconds = 3;
+            
+            // 初始状态
+            counter.textContent = `${seconds}秒后自动跳转`;
+            
+            // 更新进度条的定时器
+            const progressInterval = setInterval(() => {
+                progress += 1;
+                if (progress <= 100) {
+                    progressBar.style.width = `${progress}%`;
+                    
+                    // 每25%进度更改一次状态消息
+                    if (progress % 25 === 0) {
+                        redirectStatus.textContent = statusMessages[progress/25];
+                    }
+                } else {
+                    clearInterval(progressInterval);
+                }
+            }, 30);
+            
+            // 更新倒计时的定时器
+            const countdownInterval = setInterval(() => {
+                seconds -= 1;
+                counter.textContent = `${seconds}秒后自动跳转`;
+                
+                if (seconds <= 0) {
+                    clearInterval(countdownInterval);
+                    // 这里可以添加最终跳转前的操作
+                }
+            }, 1000);
+        }
+        
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            updateProgressBar();
+        });
+    </script>
 </body>
 </html>
