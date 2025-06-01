@@ -1,162 +1,248 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="refresh" content="3; url=player.html">
-    <title>正在跳转到播放器 - iSweeTv</title>
-    <link rel="manifest" href="manifest.json">
-    <link rel="stylesheet" href="css/watch.css">
+    <title>正在准备播放...</title>
     <style>
-        /* 添加的进度条样式 - 不会覆盖现有样式 */
-        .progress-container {
-            width: 80%;
-            max-width: 400px;
-            height: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0f1622;
+            color: white;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             overflow: hidden;
-            margin: 25px auto;
+        }
+
+        .redirect-container {
+            text-align: center;
+            max-width: 90%;
+            width: 380px;
+            padding: 2rem;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             position: relative;
         }
-        
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            color: #00ccff;
+            margin-right: 10px;
+        }
+
+        .logo-text {
+            font-size: 2rem;
+            margin: 0;
+            background: linear-gradient(to right, #00ccff, #ff3c78);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .redirect-message {
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+            font-weight: 500;
+            color: #f0f0f0;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 8px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
         .progress-bar {
             height: 100%;
             width: 0%;
-            background: linear-gradient(90deg, #4cc9f0, #4361ee);
+            background: linear-gradient(to right, #00ccff, #ff3c78);
             border-radius: 4px;
-            position: relative;
-            transition: width 0.3s ease;
+            transition: width 0.1s linear;
         }
-        
-        .progress-percentage {
-            position: absolute;
-            top: 10px;
-            right: 0;
-            font-size: 14px;
-            font-weight: 500;
-            color: #4cc9f0;
+
+        .progress-text {
+            font-size: 0.9rem;
+            color: #8599b2;
+            margin-bottom: 1.5rem;
+            height: 20px;
         }
-        
-        .time-counter {
-            display: inline-block;
-            margin-top: 10px;
-            padding: 5px 12px;
-            background: rgba(76, 201, 240, 0.15);
-            border-radius: 50px;
-            font-size: 14px;
-            color: #4cc9f0;
+
+        .redirect-hint {
+            font-size: 0.9rem;
+            color: #8599b2;
+            margin-top: 20px;
+        }
+
+        .redirect-hint a {
+            color: #00ccff;
+            text-decoration: none;
             font-weight: 500;
+            transition: all 0.2s ease;
+            padding: 5px 10px;
+            border-radius: 4px;
+            background-color: rgba(0, 204, 255, 0.1);
+        }
+
+        .redirect-hint a:hover {
+            background-color: rgba(0, 204, 255, 0.2);
+            text-decoration: underline;
+        }
+
+        /* 移动端优化 */
+        @media (max-width: 480px) {
+            .redirect-container {
+                padding: 1.5rem;
+                width: 85%;
+            }
+
+            .logo-icon {
+                width: 30px;
+                height: 30px;
+            }
+
+            .logo-text {
+                font-size: 1.7rem;
+            }
+
+            .redirect-message {
+                font-size: 1rem;
+            }
+
+            .progress-text {
+                font-size: 0.8rem;
+            }
         }
     </style>
 </head>
 <body>
     <div class="redirect-container">
         <div class="logo-container">
-            <svg class="logo-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+            <svg class="logo-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM10 16.5V7.5L16 12L10 16.5Z" fill="currentColor"/>
             </svg>
-            <h1 class="logo-text">iSweeTv</h1>
+            <h1 class="logo-text">VideoHub</h1>
         </div>
-        <div class="loading-animation"></div>
-        <div class="redirect-message">正在加载播放器...</div>
         
-        <!-- 添加的进度条元素 -->
+        <div class="redirect-message">正在准备播放，请稍候...</div>
+        
         <div class="progress-container">
-            <div class="progress-bar" id="progress-bar">
-                <span class="progress-percentage" id="progress-percentage">0%</span>
-            </div>
+            <div class="progress-bar" id="progress-bar"></div>
         </div>
-        <div class="time-counter" id="time-counter">正在准备</div>
         
-        <div id="redirect-status">准备视频数据中，请稍候...</div>
-        <p class="redirect-hint">如果页面没有自动跳转，请 <a href="player.html" id="manual-redirect">点击这里</a></p>
+        <div class="progress-text" id="progress-text">0%</div>
+        
+        <div class="redirect-hint">
+            如果长时间没有响应，请<a id="manual-redirect" href="#">点击这里</a>
+        </div>
     </div>
 
-    <script src="js/watch.js"></script>
     <script>
-        // 确保在原始脚本加载后再添加进度条逻辑
-        document.addEventListener('DOMContentLoaded', function() {
-            // 安全地添加进度条功能
-            addProgressBar();
-        });
-        
-        function addProgressBar() {
-            // 避免覆盖原始功能
-            if (!document.getElementById('progress-bar')) return;
+        window.onload = function() {
+            // 获取当前URL的查询参数
+            const currentParams = new URLSearchParams(window.location.search);
             
-            const progressBar = document.getElementById('progress-bar');
-            const progressPercentage = document.getElementById('progress-percentage');
-            const timeCounter = document.getElementById('time-counter');
-            const redirectStatus = document.getElementById('redirect-status');
+            // 创建player.html的URL对象
+            const playerUrlObj = new URL("player.html", window.location.origin);
             
-            // 确保手动跳转链接仍然有效
-            const manualRedirect = document.getElementById('manual-redirect');
-            if (manualRedirect) {
-                manualRedirect.addEventListener('click', function() {
-                    // 在跳转前将进度设置为100%
-                    progressBar.style.width = '100%';
-                    progressPercentage.textContent = '100%';
-                    timeCounter.textContent = '即将跳转';
-                    redirectStatus.textContent = '加载完成，正在跳转...';
-                });
+            // 确保保留所有原始参数
+            currentParams.forEach((value, key) => {
+                playerUrlObj.searchParams.set(key, value);
+            });
+            
+            // 获取来源URL (如果存在)
+            const referrer = document.referrer;
+            
+            // 获取当前URL中的返回URL参数（如果有）
+            const backUrl = currentParams.get('back');
+            
+            // 确定返回URL的优先级
+            let returnUrl = '';
+            if (backUrl) {
+                returnUrl = decodeURIComponent(backUrl);
+            } else if (referrer && (referrer.includes('/s=') || referrer.includes('?s='))) {
+                returnUrl = referrer;
+            } else if (referrer && referrer.trim() !== '') {
+                returnUrl = referrer;
+            } else {
+                returnUrl = '/';
             }
             
-            // 进度更新消息
-            const statusMessages = [
-                "正在初始化播放器引擎...",
-                "加载解码器...",
-                "获取视频源...",
-                "准备播放缓冲区...",
-                "视频数据加载完成，即将跳转..."
-            ];
+            // 将返回URL添加到player.html的参数中
+            if (!playerUrlObj.searchParams.has('returnUrl')) {
+                playerUrlObj.searchParams.set('returnUrl', encodeURIComponent(returnUrl));
+            }
             
-            // 进度条更新的间隔时间（毫秒）
-            const intervalTime = 50;
-            const totalTime = 3000; // 3秒
-            const steps = Math.ceil(totalTime / intervalTime);
-            let step = 0;
+            // 同时保存在localStorage中，作为备用
+            localStorage.setItem('lastPageUrl', returnUrl);
+            
+            // 标记来自搜索页面
+            if (returnUrl.includes('/s=') || returnUrl.includes('?s=')) {
+                localStorage.setItem('cameFromSearch', 'true');
+                localStorage.setItem('searchPageUrl', returnUrl);
+            }
+            
+            // 获取最终的URL字符串
+            const finalPlayerUrl = playerUrlObj.toString();
+            
+            // 更新手动重定向链接
+            const manualRedirect = document.getElementById('manual-redirect');
+            if (manualRedirect) {
+                manualRedirect.href = finalPlayerUrl;
+            }
+
+            // 更新meta refresh标签
+            const metaRefresh = document.querySelector('meta[http-equiv="refresh"]');
+            if (metaRefresh) {
+                metaRefresh.content = `3; url=${finalPlayerUrl}`;
+            }
+            
+            // 进度条元素
+            const progressBar = document.getElementById('progress-bar');
+            const progressText = document.getElementById('progress-text');
+            
+            // 进度条动画
             let progress = 0;
+            const interval = 30; // 更新间隔(ms)
+            const totalTime = 2800; // 总时间(ms)
+            const increment = (interval / totalTime) * 100;
             
-            // 更新进度条
             const progressInterval = setInterval(() => {
-                step++;
-                progress = Math.min(100, Math.floor((step / steps) * 100));
-                
-                // 更新进度条宽度
-                progressBar.style.width = progress + '%';
-                
-                // 更新进度百分比文字
-                progressPercentage.textContent = progress + '%';
-                
-                // 随着进度移动百分比显示位置
-                progressPercentage.style.right = (100 - progress) + '%';
-                
-                // 在不同进度点更新状态信息
-                if (progress < 20) {
-                    redirectStatus.textContent = statusMessages[0];
-                    timeCounter.textContent = "请稍候...";
-                } else if (progress < 40) {
-                    redirectStatus.textContent = statusMessages[1];
-                    timeCounter.textContent = "正在准备...";
-                } else if (progress < 60) {
-                    redirectStatus.textContent = statusMessages[2];
-                    timeCounter.textContent = "已完成一半";
-                } else if (progress < 80) {
-                    redirectStatus.textContent = statusMessages[3];
-                    timeCounter.textContent = "即将完成...";
-                } else if (progress < 95) {
-                    redirectStatus.textContent = statusMessages[4];
-                    timeCounter.textContent = "准备跳转";
-                }
-                
-                // 进度完成时清除定时器
+                progress += increment;
                 if (progress >= 100) {
+                    progress = 100;
                     clearInterval(progressInterval);
-                    redirectStatus.textContent = "加载完成，正在跳转...";
                 }
-            }, intervalTime);
-        }
+                
+                progressBar.style.width = progress + '%';
+                progressText.textContent = Math.round(progress) + '%';
+            }, interval);
+            
+            // 重定向到播放器页面
+            setTimeout(() => {
+                clearInterval(progressInterval);
+                window.location.href = finalPlayerUrl;
+            }, totalTime);
+        };
     </script>
 </body>
 </html>
