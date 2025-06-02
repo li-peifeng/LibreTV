@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 设置默认API选择（如果是第一次加载）
     if (!localStorage.getItem('hasInitializedDefaults')) {
         // 默认选中资源
-        selectedAPIs = ["tyyszy","bfzy","dyttzy", "ruyi"];
+        selectedAPIs = ["tyyszy", "bfzy", "dyttzy", "ruyi", "wwzy"];
         localStorage.setItem('selectedAPIs', JSON.stringify(selectedAPIs));
         
         // 默认选中过滤开关
@@ -120,7 +120,7 @@ function addAdultAPI() {
         adultdiv.className = 'grid grid-cols-2 gap-2';
         const adultTitle = document.createElement('div');
         adultTitle.className = 'api-group-title adult';
-        adultTitle.innerHTML = `黄色资源采集站 <span class="adult-warning">
+        adultTitle.innerHTML = `成人资源采集站 <span class="adult-warning">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
             </svg>
@@ -180,7 +180,7 @@ function checkAdultAPIsSelected() {
         
         // 修改描述文字
         if (filterDescription) {
-            filterDescription.innerHTML = '<strong class="text-pink-300">选中黄色资源站时无法启用此过滤</strong>';
+            filterDescription.innerHTML = '<strong class="text-pink-300">选中成人资源站时无法启用此过滤</strong>';
         }
         
         // 移除提示信息（如果存在）
@@ -195,7 +195,7 @@ function checkAdultAPIsSelected() {
         
         // 恢复原来的描述文字
         if (filterDescription) {
-            filterDescription.innerHTML = '过滤"伦理片"等黄色内容';
+            filterDescription.innerHTML = '过滤成人内容';
         }
         
         // 移除提示信息

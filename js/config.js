@@ -38,10 +38,14 @@ const API_SITES = {
         api: 'https://tyyszy.com/api.php/provide/vod',
         name: '天涯资源',
     },
-    // xiaomaomi: {
-    //     api: 'https://zy.xiaomaomi.cc/api.php/provide/vod',
-    //     name: '小猫咪资源',
-    // },
+    wwzy: {
+        api: 'https://wwzy.tv/api.php/provide/vod',
+        name: '旺旺短剧'
+    },
+    xiaomaomi: {
+        api: 'https://zy.xiaomaomi.cc/api.php/provide/vod',
+        name: '小猫咪资源',
+    },
     ffzy: {
         api: 'http://ffzy5.tv/api.php/provide/vod',
         name: '非凡影视',
@@ -73,10 +77,11 @@ const API_SITES = {
         name: '极速资源',
         detail: 'https://jszyapi.com', 
     },
-    dbzy: {
-        api: 'https://dbzy.com/api.php/provide/vod',
-        name: '豆瓣资源',
-    },
+    // 可能已失效
+    // dbzy: {
+    //     api: 'https://dbzy.com/api.php/provide/vod',
+    //     name: '豆瓣资源',
+    // },
     mozhua: {
         api: 'https://mozhuazy.com/api.php/provide/vod',
         name: '魔爪资源',
@@ -89,10 +94,11 @@ const API_SITES = {
         api: 'https://api.zuidapi.com/api.php/provide/vod',
         name: '最大资源'
     },
-    yinghua: {
-        api: 'https://m3u8.apiyhzy.com/api.php/provide/vod',
-        name: '樱花资源'
-    },
+    // 可能已失效
+    // yinghua: {
+    //     api: 'https://m3u8.apiyhzy.com/api.php/provide/vod',
+    //     name: '樱花资源'
+    // },
     baidu: {
         api: 'https://api.apibdzy.com/api.php/provide/vod',
         name: '百度云资源'
@@ -100,10 +106,6 @@ const API_SITES = {
     wujin: {
         api: 'https://api.wujinapi.me/api.php/provide/vod',
         name: '无尽资源'
-    },
-    wwzy: {
-        api: 'https://wwzy.tv/api.php/provide/vod',
-        name: '旺旺短剧'
     },
     ikun: {
         api: 'https://ikunzyapi.com/api.php/provide/vod',
@@ -151,18 +153,18 @@ const API_SITES = {
     adult: true
     },
     // 下面是资源失效率高的API源，不建议使用
-    // subo: {
-    //     api: 'https://subocaiji.com/api.php/provide/vod',
-    //     name: '速播资源'
-    // },
-    // fczy: {
-    //     api: 'https://api.fczy888.me/api.php/provide/vod',
-    //     name: '蜂巢资源'
-    // },
-    // ukzy: {
-    //     api: 'https://api.ukuapi88.com/api.php/provide/vod',
-    //     name: 'U酷资源'
-    // },
+    subo: {
+        api: 'https://subocaiji.com/api.php/provide/vod',
+        name: '速播资源'
+    },
+    fczy: {
+        api: 'https://api.fczy888.me/api.php/provide/vod',
+        name: '蜂巢资源'
+    },
+    ukzy: {
+        api: 'https://api.ukuapi88.com/api.php/provide/vod',
+        name: 'U酷资源'
+    },
 };
 
 // 添加聚合搜索的配置选项
