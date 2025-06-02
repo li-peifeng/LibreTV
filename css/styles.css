@@ -1,5 +1,5 @@
 /* 
-LibreTV 全局样式
+iSweeTv 全局样式
 包含多个页面共享的基础样式
 对于特定页面的样式，请参考:
 - index.css: 首页特定样式
@@ -78,6 +78,11 @@ html, body {
         radial-gradient(circle at 50px 50px, rgba(150, 255, 250, 0.015) 1px, transparent 2px);
     background-blend-mode: normal;
     background-size: cover, 100px 100px, 50px 50px, 75px 75px;
+    /* 安全区域 */
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
 }
 
 button, .card-hover {
