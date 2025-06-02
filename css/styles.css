@@ -7,21 +7,6 @@ iSweeTv 全局样式
 - watch.css: 重定向页面特定样式
 - modals.css: 模态框和提示框样式
 */
-
-html, body {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            overflow-x: hidden;
-        }
-        
-        /* 状态栏高度补偿 */ 
-@supports (padding-top: env(safe-area-inset-top)) {
-            body {
-                padding-top: env(safe-area-inset-top);
-            }
-        }
-
 .close-btn {
     position: absolute;
     top: 12px;
@@ -78,11 +63,6 @@ html, body {
         radial-gradient(circle at 50px 50px, rgba(150, 255, 250, 0.015) 1px, transparent 2px);
     background-blend-mode: normal;
     background-size: cover, 100px 100px, 50px 50px, 75px 75px;
-    /* 安全区域 */
-    padding-top: env(safe-area-inset-top);
-    padding-bottom: env(safe-area-inset-bottom);
-    padding-left: env(safe-area-inset-left);
-    padding-right: env(safe-area-inset-right);
 }
 
 button, .card-hover {
