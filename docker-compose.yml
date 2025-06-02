@@ -1,8 +1,8 @@
 version: '3'
 services:
-  libretv:
-    image: bestzwei/libretv:latest
-    container_name: libretv
+  isweetv:
+    image: leolitaly/isweetv:latest
+    container_name: isweetv
     ports:
       - "8899:80"
     environment:
