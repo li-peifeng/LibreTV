@@ -8,6 +8,20 @@ LibreTV 全局样式
 - modals.css: 模态框和提示框样式
 */
 
+html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow-x: hidden;
+        }
+        
+        /* 状态栏高度补偿 */ 
+@supports (padding-top: env(safe-area-inset-top)) {
+            body {
+                padding-top: env(safe-area-inset-top);
+            }
+        }
+
 .close-btn {
     position: absolute;
     top: 12px;
