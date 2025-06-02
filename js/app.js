@@ -1039,7 +1039,7 @@ async function showDetails(id, vod_name, sourceCode) {
                         <span class="text-gray-400 text-sm">共 ${data.episodes.length} 集</span>
                     </div>
                     <button onclick="copyLinks()" class="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded text-sm transition-colors">
-                        复制链接
+                        复制播放链接
                     </button>
                 </div>
                 <div id="episodesGrid" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2">
