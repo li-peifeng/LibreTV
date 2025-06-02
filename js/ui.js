@@ -86,7 +86,7 @@ function showNextToast() {
 // 添加显示/隐藏 loading 的函数
 let loadingTimeoutId = null;
 
-function showLoading(message = '加载中...') {
+function showLoading(message = '视频加载中...') {
     // 清除任何现有的超时
     if (loadingTimeoutId) {
         clearTimeout(loadingTimeoutId);
