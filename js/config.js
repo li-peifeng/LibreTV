@@ -38,10 +38,10 @@ const API_SITES = {
         api: 'https://wwzy.tv/api.php/provide/vod',
         name: '旺旺'
     },
-    xiaomaomi: {
-        api: 'https://zy.xiaomaomi.cc/api.php/provide/vod',
-        name: '小猫咪',
-    },
+    // xiaomaomi: {
+    //     api: 'https://zy.xiaomaomi.cc/api.php/provide/vod',
+    //     name: '小猫咪',
+    // },
     ffzy: {
         api: 'http://ffzy5.tv/api.php/provide/vod',
         name: '非凡',
