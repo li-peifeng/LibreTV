@@ -528,7 +528,6 @@ body {
 /* 改进过滤器禁用样式 */
 .filter-disabled .filter-description {
     color: #ff6b8b !important;
-    font-style: italic;
     font-weight: 500;
 }
 
@@ -557,7 +556,6 @@ body {
 /* 改进过滤器禁用状态下的描述样式 */
 .filter-disabled .filter-description {
     color: #ff7b9d !important; /* 更亮的粉色 */
-    font-style: italic;
     font-weight: 500;
     text-shadow: 0 0 2px rgba(0,0,0,0.8); /* 添加文字阴影提高对比度 */
 }

@@ -655,7 +655,7 @@ function showTagManageModal() {
                                 ${canDelete ?
                 `<button class="delete-tag-btn text-gray-500 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity" 
                                         data-tag="${tag}">✕</button>` :
-                `<span class="text-gray-500 text-xs italic opacity-0 group-hover:opacity-100">必需</span>`
+                `<span class="text-gray-500 text-xs opacity-0 group-hover:opacity-100">必需</span>`
             }
                             </div>
                         `;
