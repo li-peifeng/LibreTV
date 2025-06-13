@@ -180,7 +180,7 @@ function checkAdultAPIsSelected() {
 
         // 修改描述文字
         if (filterDescription) {
-            filterDescription.innerHTML = '<p class="text-pink-300">有站点选中时无法启用此过滤</p>';
+            filterDescription.innerHTML = '<p class="text-pink-300">选中成人站点时无法启用此过滤</p>';
         }
 
         // 移除提示信息（如果存在）
