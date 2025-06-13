@@ -1496,13 +1496,13 @@ function renderResourceInfoBar() {
         const customAPIs = JSON.parse(localStorage.getItem('customAPIs') || '[]');
         const customIndex = parseInt(currentSource.replace('custom_', ''), 10);
         if (customAPIs[customIndex]) {
-            resourceName = customAPIs[customIndex].name || '自定义资源';
+            resourceName = customAPIs[customIndex].name || '自定义视频资源';
         }
     }
 
     container.innerHTML = `
       <div class="resource-info-bar-left flex">
-        <span class="resource-info-bar-videos">当前播放视频源：${resourceName}， 共 ${currentEpisodes.length} 个视频</span>
+        <span class="resource-info-bar-videos">视频源：${resourceName}， 共 ${currentEpisodes.length} 个视频</span>
       </div>
       <button class="resource-switch-btn flex" id="switchResourceBtn" onclick="showSwitchResourceModal()">
         <span class="resource-switch-icon">
@@ -1531,7 +1531,7 @@ async function showSwitchResourceModal() {
     const modalContent = document.getElementById('modalContent');
 
     modalTitle.innerHTML = `<span class="break-words">${currentVideoTitle}</span>`;
-    modalContent.innerHTML = '<div style="text-align:center;padding:20px;color:#aaa;grid-column:1/-1;">正在加载资源列表...</div>';
+    modalContent.innerHTML = '<div style="text-align:center;padding:20px;color:#aaa;grid-column:1/-1;">正在加载视频资源列表...</div>';
     modal.classList.remove('hidden');
 
     // 搜索
@@ -1541,9 +1541,9 @@ async function showSwitchResourceModal() {
         }
         const customIndex = parseInt(curr.replace('custom_', ''), 10);
         if (customAPIs[customIndex]) {
-            return { key: curr, name: customAPIs[customIndex].name || '自定义资源' };
+            return { key: curr, name: customAPIs[customIndex].name || '自定义视频资源' };
         }
-        return { key: curr, name: '未知资源' };
+        return { key: curr, name: '未知视频资源' };
     });
     let allResults = {};
     await Promise.all(resourceOptions.map(async (opt) => {
@@ -1585,7 +1585,7 @@ async function showSwitchResourceModal() {
 
         // 修复 isCurrentSource 判断，确保类型一致
         const isCurrentSource = String(sourceKey) === String(currentSourceCode) && String(result.vod_id) === String(currentVideoId);
-        const sourceName = resourceOptions.find(opt => opt.key === sourceKey)?.name || '未知资源';
+        const sourceName = resourceOptions.find(opt => opt.key === sourceKey)?.name || '未知视频资源';
 
         html += `
             <div class="relative group ${isCurrentSource ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:scale-105 transition-transform'}" 
