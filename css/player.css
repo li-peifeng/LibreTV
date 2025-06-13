@@ -175,9 +175,9 @@ input:checked + .slider:before {
 
 .resource-info-bar-left {
     align-items: center;
-    font-size: 1.1rem;
+    font-size: 1rem;
     /* 调整字体大小 */
-    font-weight: bold;
+    font-weight: normal;
     color: #fff;
     /* 文字颜色改为白色 */
     flex: 1;
@@ -187,7 +187,7 @@ input:checked + .slider:before {
     font-size: 1rem;
     /* 调整字体大小 */
     font-weight: normal;
-    margin-left: 10px;
+    margin-left: 6px;
     color: #ccc;
     /* 副文本颜色调亮 */
 }

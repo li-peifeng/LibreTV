@@ -1502,7 +1502,7 @@ function renderResourceInfoBar() {
 
     container.innerHTML = `
       <div class="resource-info-bar-left flex">
-        <span class="resource-info-bar-videos">视频源：${resourceName}， 共 ${currentEpisodes.length} 个视频</span>
+        <span class="resource-info-bar-videos">视频源：${resourceName}，共 ${currentEpisodes.length} 个视频</span>
       </div>
       <button class="resource-switch-btn flex" id="switchResourceBtn" onclick="showSwitchResourceModal()">
         <span class="resource-switch-icon">
