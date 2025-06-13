@@ -198,9 +198,8 @@ input:checked + .slider:before {
     /* 移除背景 */
     border: none;
     /* 移除边框 */
-    color: #a67c2d;
+    color: #ffffff;
     /* 恢复原图标颜色 */
-    font-weight: bold;
     font-size: 1rem;
     cursor: pointer;
     gap: 6px;
@@ -210,13 +209,15 @@ input:checked + .slider:before {
 }
 
 .resource-switch-btn:hover {
-    background: #f5e9d7;
+    background: #3b82f6;
+    color: #ffffff;
     /* 调整悬停背景色 */
 }
 
 .resource-switch-btn:active {
-    background: #f5e9d7;
+    background: #3b82f6;
     /* 调整点击背景色 */
+    color: #ffffff;
 }
 
 .resource-switch-icon {
@@ -224,7 +225,7 @@ input:checked + .slider:before {
     height: 20px;
     margin-right: 0;
     /* 使用gap控制间距 */
-    color: #a67c2d;
+    color: #2da6a6;
     /* 恢复原图标颜色 */
     vertical-align: middle;
     transition: transform 0.3s;

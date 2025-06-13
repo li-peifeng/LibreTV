@@ -5,34 +5,34 @@ const customAPIs = JSON.parse(localStorage.getItem('customAPIs') || '[]'); // �
 function goBack(event) {
     // 防止默认链接行为
     if (event) event.preventDefault();
-    
+
     // 1. 优先检查URL参数中的returnUrl
     const urlParams = new URLSearchParams(window.location.search);
     const returnUrl = urlParams.get('returnUrl');
-    
+
     if (returnUrl) {
         // 如果URL中有returnUrl参数，优先使用
         window.location.href = decodeURIComponent(returnUrl);
         return;
     }
-    
+
     // 2. 检查localStorage中保存的lastPageUrl
     const lastPageUrl = localStorage.getItem('lastPageUrl');
     if (lastPageUrl && lastPageUrl !== window.location.href) {
         window.location.href = lastPageUrl;
         return;
     }
-    
+
     // 3. 检查是否是从搜索页面进入的播放器
     const referrer = document.referrer;
-    
+
     // 检查 referrer 是否包含搜索参数
     if (referrer && (referrer.includes('/s=') || referrer.includes('?s='))) {
         // 如果是从搜索页面来的，返回到搜索页面
         window.location.href = referrer;
         return;
     }
-    
+
     // 4. 如果是在iframe中打开的，尝试关闭iframe
     if (window.self !== window.top) {
         try {
@@ -43,13 +43,13 @@ function goBack(event) {
             console.error('调用父窗口closeVideoPlayer失败:', e);
         }
     }
-    
+
     // 5. 无法确定上一页，则返回首页
     if (!referrer || referrer === '') {
         window.location.href = '/';
         return;
     }
-    
+
     // 6. 以上都不满足，使用默认行为：返回上一页
     window.history.back();
 }
@@ -268,7 +268,7 @@ function initializePageContent() {
 
             // 新增：播放进度变化时节流保存
             let lastSave = 0;
-            art.video.addEventListener('timeupdate', function() {
+            art.video.addEventListener('timeupdate', function () {
                 const now = Date.now();
                 if (now - lastSave > 5000) { // 每5秒最多保存一次
                     saveCurrentProgress();
@@ -377,7 +377,7 @@ function showShortcutHint(text, direction) {
         iconElement.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>';
     } else if (direction === 'right') {
         iconElement.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>';
-    }  else if (direction === 'up') {
+    } else if (direction === 'up') {
         iconElement.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>';
     } else if (direction === 'down') {
         iconElement.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>';
@@ -647,7 +647,7 @@ function initPlayer(videoUrl) {
         hideControls();
         clearTimeout(hideTimer);
     }
-    
+
     // 处理鼠标返回浏览器窗口
     function handleMouseEnter() {
         isMouseActive = true;
@@ -670,7 +670,7 @@ function initPlayer(videoUrl) {
         }
     });
 
-    art.on('video:loadedmetadata', function() {
+    art.on('video:loadedmetadata', function () {
         document.getElementById('player-loading').style.display = 'none';
         videoHasEnded = false; // 视频加载时重置结束标志
         // 优先使用URL传递的position参数
@@ -1138,14 +1138,14 @@ function saveToHistory() {
         duration: videoDuration,
         episodes: currentEpisodes && currentEpisodes.length > 0 ? [...currentEpisodes] : []
     };
-    
+
     try {
         const history = JSON.parse(localStorage.getItem('viewingHistory') || '[]');
 
         // 检查是否已经存在相同的系列记录 (基于标题、来源和 showIdentifier)
-        const existingIndex = history.findIndex(item => 
-            item.title === videoInfo.title && 
-            item.sourceName === videoInfo.sourceName && 
+        const existingIndex = history.findIndex(item =>
+            item.title === videoInfo.title &&
+            item.sourceName === videoInfo.sourceName &&
             item.showIdentifier === videoInfo.showIdentifier
         );
 
@@ -1157,7 +1157,7 @@ function saveToHistory() {
             existingItem.sourceName = videoInfo.sourceName; // Should be consistent, but update just in case
             existingItem.sourceCode = videoInfo.sourceCode;
             existingItem.vod_id = videoInfo.vod_id;
-            
+
             // Update URLs to reflect the current episode being watched
             existingItem.directVideoUrl = videoInfo.directVideoUrl; // Current episode's direct URL
             existingItem.url = videoInfo.url; // Player link for the current episode
@@ -1165,17 +1165,17 @@ function saveToHistory() {
             // 更新播放进度信息
             existingItem.playbackPosition = videoInfo.playbackPosition > 10 ? videoInfo.playbackPosition : (existingItem.playbackPosition || 0);
             existingItem.duration = videoInfo.duration || existingItem.duration;
-            
+
             // 更新集数列表（如果新的集数列表与存储的不同，例如集数增加了）
             if (videoInfo.episodes && videoInfo.episodes.length > 0) {
-                if (!existingItem.episodes || 
-                    !Array.isArray(existingItem.episodes) || 
-                    existingItem.episodes.length !== videoInfo.episodes.length || 
+                if (!existingItem.episodes ||
+                    !Array.isArray(existingItem.episodes) ||
+                    existingItem.episodes.length !== videoInfo.episodes.length ||
                     !videoInfo.episodes.every((ep, i) => ep === existingItem.episodes[i])) { // Basic check for content change
                     existingItem.episodes = [...videoInfo.episodes]; // Deep copy
                 }
             }
-            
+
             // 移到最前面
             const updatedItem = history.splice(existingIndex, 1)[0];
             history.unshift(updatedItem);
@@ -1460,11 +1460,11 @@ function renderResourceInfoBar() {
         console.error('找不到资源信息卡片容器');
         return;
     }
-    
+
     // 获取当前视频 source_code
     const urlParams = new URLSearchParams(window.location.search);
     const currentSource = urlParams.get('source') || '';
-    
+
     // 显示临时加载状态
     container.innerHTML = `
       <div class="resource-info-bar-left flex">
@@ -1473,9 +1473,17 @@ function renderResourceInfoBar() {
       </div>
       <button class="resource-switch-btn flex" id="switchResourceBtn" onclick="showSwitchResourceModal()">
         <span class="resource-switch-icon">
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 4v16m0 0l-6-6m6 6l6-6" stroke="#a67c2d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g>
+              <path d="M5.6,14.4C3.39,14.4,1.6,16.19,1.6,18.4s1.79,4,4,4s4-1.79,4-4S7.81,14.4,5.6,14.4z M5.6,21.6c-1.76,0-3.2-1.44-3.2-3.2
+      s1.44-3.2,3.2-3.2s3.2,1.44,3.2,3.2S7.36,21.6,5.6,21.6z" fill="#fff"/>
+              <path d="M18.4,12.8H5.6C2.51,12.8,0,15.31,0,18.4s2.51,5.6,5.6,5.6h12.8c3.09,0,5.6-2.51,5.6-5.6S21.49,12.8,18.4,12.8z M18.4,23.2
+      H5.6C2.95,23.2,0.8,21.05,0.8,18.4s2.15-4.8,4.8-4.8h12.8c2.65,0,4.8,2.15,4.8,4.8S21.05,23.2,18.4,23.2z" fill="#fff"/>
+              <path d="M5.6,11.2h12.8c3.09,0,5.6-2.51,5.6-5.6S21.49,0,18.4,0H5.6C2.51,0,0,2.51,0,5.6S2.51,11.2,5.6,11.2z M18.4,1.6
+      c2.21,0,4,1.79,4,4s-1.79,4-4,4s-4-1.79-4-4S16.19,1.6,18.4,1.6z" fill="#fff"/>
+            </g>
+          </svg>
         </span>
-        切换资源
       </button>
     `;
 
@@ -1494,14 +1502,21 @@ function renderResourceInfoBar() {
 
     container.innerHTML = `
       <div class="resource-info-bar-left flex">
-        <span>${resourceName}</span>
-        <span class="resource-info-bar-videos">${currentEpisodes.length} 个视频</span>
+        <span class="resource-info-bar-videos">当前播放视频源：${resourceName}， 共 ${currentEpisodes.length} 个视频</span>
       </div>
       <button class="resource-switch-btn flex" id="switchResourceBtn" onclick="showSwitchResourceModal()">
         <span class="resource-switch-icon">
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 4v16m0 0l-6-6m6 6l6-6" stroke="#a67c2d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g>
+              <path d="M5.6,14.4C3.39,14.4,1.6,16.19,1.6,18.4s1.79,4,4,4s4-1.79,4-4S7.81,14.4,5.6,14.4z M5.6,21.6c-1.76,0-3.2-1.44-3.2-3.2
+      s1.44-3.2,3.2-3.2s3.2,1.44,3.2,3.2S7.36,21.6,5.6,21.6z" fill="#fff"/>
+              <path d="M18.4,12.8H5.6C2.51,12.8,0,15.31,0,18.4s2.51,5.6,5.6,5.6h12.8c3.09,0,5.6-2.51,5.6-5.6S21.49,12.8,18.4,12.8z M18.4,23.2
+      H5.6C2.95,23.2,0.8,21.05,0.8,18.4s2.15-4.8,4.8-4.8h12.8c2.65,0,4.8,2.15,4.8,4.8S21.05,23.2,18.4,23.2z" fill="#fff"/>
+              <path d="M5.6,11.2h12.8c3.09,0,5.6-2.51,5.6-5.6S21.49,0,18.4,0H5.6C2.51,0,0,2.51,0,5.6S2.51,11.2,5.6,11.2z M18.4,1.6
+      c2.21,0,4,1.79,4,4s-1.79,4-4,4s-4-1.79-4-4S16.19,1.6,18.4,1.6z" fill="#fff"/>
+            </g>
+          </svg>
         </span>
-        切换资源
       </button>
     `;
 }
@@ -1534,7 +1549,7 @@ async function showSwitchResourceModal() {
     await Promise.all(resourceOptions.map(async (opt) => {
         let queryResult = await searchByAPIAndKeyWord(opt.key, currentVideoTitle);
         if (queryResult.length == 0) {
-            return 
+            return
         }
         // 优先取完全同名资源，否则默认取第一个
         let result = queryResult[0]
@@ -1551,27 +1566,27 @@ async function showSwitchResourceModal() {
         // 当前播放的源放在最前面
         const isCurrentA = String(keyA) === String(currentSourceCode) && String(resultA.vod_id) === String(currentVideoId);
         const isCurrentB = String(keyB) === String(currentSourceCode) && String(resultB.vod_id) === String(currentVideoId);
-        
+
         if (isCurrentA && !isCurrentB) return -1;
         if (!isCurrentA && isCurrentB) return 1;
-        
+
         // 其余按照 selectedAPIs 的顺序排列
         const indexA = selectedAPIs.indexOf(keyA);
         const indexB = selectedAPIs.indexOf(keyB);
-        
+
         return indexA - indexB;
     });
 
     // 渲染资源列表
     let html = '<div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3 p-4">';
-    
+
     for (const [sourceKey, result] of sortedResults) {
         if (!result) continue;
-        
+
         // 修复 isCurrentSource 判断，确保类型一致
         const isCurrentSource = String(sourceKey) === String(currentSourceCode) && String(result.vod_id) === String(currentVideoId);
         const sourceName = resourceOptions.find(opt => opt.key === sourceKey)?.name || '未知资源';
-        
+
         html += `
             <div class="relative group ${isCurrentSource ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:scale-105 transition-transform'}" 
                  ${!isCurrentSource ? `onclick="switchToResource('${sourceKey}', '${result.vod_id}')"` : ''}>
@@ -1595,7 +1610,7 @@ async function showSwitchResourceModal() {
             </div>
         `;
     }
-    
+
     html += '</div>';
     modalContent.innerHTML = html;
 }
@@ -1604,12 +1619,12 @@ async function showSwitchResourceModal() {
 async function switchToResource(sourceKey, vodId) {
     // 关闭模态框
     document.getElementById('modal').classList.add('hidden');
-    
+
     showLoading();
     try {
         // 构建API参数
         let apiParams = '';
-        
+
         // 处理自定义API源
         if (sourceKey.startsWith('custom_')) {
             const customIndex = sourceKey.replace('custom_', '');
@@ -1629,14 +1644,14 @@ async function switchToResource(sourceKey, vodId) {
             // 内置API
             apiParams = '&source=' + sourceKey;
         }
-        
+
         // Add a timestamp to prevent caching
         const timestamp = new Date().getTime();
         const cacheBuster = `&_t=${timestamp}`;
         const response = await fetch(`/api/detail?id=${encodeURIComponent(vodId)}${apiParams}${cacheBuster}`);
-        
+
         const data = await response.json();
-        
+
         if (!data.episodes || data.episodes.length === 0) {
             showToast('未找到播放资源', 'error');
             hideLoading();
@@ -1645,20 +1660,20 @@ async function switchToResource(sourceKey, vodId) {
 
         // 获取当前播放的集数索引
         const currentIndex = currentEpisodeIndex;
-        
+
         // 确定要播放的集数索引
         let targetIndex = 0;
         if (currentIndex < data.episodes.length) {
             // 如果当前集数在新资源中存在，则使用相同集数
             targetIndex = currentIndex;
         }
-        
+
         // 获取目标集数的URL
         const targetUrl = data.episodes[targetIndex];
-        
+
         // 构建播放页面URL
         const watchUrl = `player.html?id=${vodId}&source=${sourceKey}&url=${encodeURIComponent(targetUrl)}&index=${targetIndex}&title=${encodeURIComponent(currentVideoTitle)}`;
-        
+
         // 保存当前状态到localStorage
         try {
             localStorage.setItem('currentVideoTitle', data.vod_name || '未知视频');
@@ -1672,7 +1687,7 @@ async function switchToResource(sourceKey, vodId) {
 
         // 跳转到播放页面
         window.location.href = watchUrl;
-        
+
     } catch (error) {
         console.error('切换资源失败:', error);
         showToast('切换资源失败，请稍后重试', 'error');
