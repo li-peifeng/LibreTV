@@ -22,11 +22,6 @@ const SITE_CONFIG = {
 
 // API站点配置
 const API_SITES = {
-    dyttzy: {
-        api: 'http://caiji.dyttzyapi.com/api.php/provide/vod',
-        name: 'DYTT',
-        detail: 'http://caiji.dyttzyapi.com', 
-    },
     ruyi: {
         api: 'https://cj.rycjapi.com/api.php/provide/vod',
         name: '如意',
@@ -50,25 +45,17 @@ const API_SITES = {
     ffzy: {
         api: 'http://ffzy5.tv/api.php/provide/vod',
         name: '非凡',
-        detail: 'http://ffzy5.tv', 
+        detail: 'http://ffzy5.tv',
     },
     heimuer: {
         api: 'https://json.heimuer.xyz/api.php/provide/vod',
         name: '黑木耳',
-        detail: 'https://heimuer.tv', 
-    },
-    zy360: {
-        api: 'https://360zy.com/api.php/provide/vod',
-        name: '360',
-    },
-    iqiyi: {
-        api: 'https://www.iqiyizyapi.com/api.php/provide/vod',
-        name: 'IQIYI',
+        detail: 'https://heimuer.tv',
     },
     wolong: {
         api: 'https://wolongzyw.com/api.php/provide/vod',
         name: '卧龙',
-    }, 
+    },
     hwba: {
         api: 'https://cjhwba.com/api.php/provide/vod',
         name: '华为吧',
@@ -76,13 +63,12 @@ const API_SITES = {
     jisu: {
         api: 'https://jszyapi.com/api.php/provide/vod',
         name: '极速',
-        detail: 'https://jszyapi.com', 
+        detail: 'https://jszyapi.com',
     },
-    // 可能已失效
-    // dbzy: {
-    //     api: 'https://dbzy.com/api.php/provide/vod',
-    //     name: '豆瓣',
-    // },
+    dbzy: {
+        api: 'https://dbzy.com/api.php/provide/vod',
+        name: '豆瓣',
+    },
     mozhua: {
         api: 'https://mozhuazy.com/api.php/provide/vod',
         name: '魔爪',
@@ -95,11 +81,10 @@ const API_SITES = {
         api: 'https://api.zuidapi.com/api.php/provide/vod',
         name: '最大'
     },
-    // 可能已失效
-    // yinghua: {
-    //     api: 'https://m3u8.apiyhzy.com/api.php/provide/vod',
-    //     name: '樱花'
-    // },
+    yinghua: {
+        api: 'https://m3u8.apiyhzy.com/api.php/provide/vod',
+        name: '樱花'
+    },
     baidu: {
         api: 'https://api.apibdzy.com/api.php/provide/vod',
         name: '百度云'
@@ -112,46 +97,59 @@ const API_SITES = {
         api: 'https://ikunzyapi.com/api.php/provide/vod',
         name: 'IKUN'
     },
+    zy360: {
+        api: 'https://360zy.com/api.php/provide/vod',
+        name: '360',
+    },
+    dyttzy: {
+        api: 'http://caiji.dyttzyapi.com/api.php/provide/vod',
+        name: 'DYTT',
+        detail: 'http://caiji.dyttzyapi.com',
+    },
+    iqiyi: {
+        api: 'https://www.iqiyizyapi.com/api.php/provide/vod',
+        name: 'IQIYI',
+    },
     ckzy: {
-    api: 'https://www.ckzy1.com',
-    name: 'CK',
-    adult: true
+        api: 'https://www.ckzy1.com',
+        name: 'CK',
+        adult: true
     },
     jkun: {
-    api: 'https://jkunzyapi.com',
-    name: 'JKUN',
-    adult: true
+        api: 'https://jkunzyapi.com',
+        name: 'JKUN',
+        adult: true
     },
     bwzy: {
-    api: 'https://api.bwzym3u8.com',
-    name: '百万',
-    adult: true
+        api: 'https://api.bwzym3u8.com',
+        name: '百万',
+        adult: true
     },
     souav: {
-    api: 'https://api.souavzy.vip',
-    name: 'SOUAV',
-    adult: true
+        api: 'https://api.souavzy.vip',
+        name: 'SOUAV',
+        adult: true
     },
     r155: {
-    api: 'https://155api.com',
-    name: '155',
-    adult: true
+        api: 'https://155api.com',
+        name: '155',
+        adult: true
     },
     lsb: {
-    api: 'https://apilsbzy1.com',
-    name: 'LSB',
-    adult: true
+        api: 'https://apilsbzy1.com',
+        name: 'LSB',
+        adult: true
     },
     huangcang: {
-    api: 'https://hsckzy.vip',
-    name: 'HSCK',
-    adult: true,
-    detail: 'https://hsckzy.vip'
+        api: 'https://hsckzy.vip',
+        name: 'HSCK',
+        adult: true,
+        detail: 'https://hsckzy.vip'
     },
     yutu: {
-    api: 'https://yutuzy10.com',
-    name: '玉兔',
-    adult: true
+        api: 'https://yutuzy10.com',
+        name: '玉兔',
+        adult: true
     },
     // 下面是资源失效率高的API源，不建议使用
     subo: {
