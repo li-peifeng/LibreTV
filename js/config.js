@@ -22,21 +22,26 @@ const SITE_CONFIG = {
 
 // API站点配置
 const API_SITES = {
+    dyttzy: {
+        api: 'http://caiji.dyttzyapi.com/api.php/provide/vod',
+        name: '电影天堂',
+        detail: 'http://caiji.dyttzyapi.com',
+    },
     ruyi: {
         api: 'https://cj.rycjapi.com/api.php/provide/vod',
-        name: '如意',
+        name: '如意资源',
     },
     bfzy: {
         api: 'https://bfzyapi.com/api.php/provide/vod',
-        name: '暴风',
+        name: '暴风资源',
     },
     tyyszy: {
         api: 'https://tyyszy.com/api.php/provide/vod',
-        name: '天涯',
+        name: '天涯影视',
     },
     wwzy: {
         api: 'https://wwzy.tv/api.php/provide/vod',
-        name: '旺旺'
+        name: '旺旺短剧'
     },
     // xiaomaomi: {
     //     api: 'https://zy.xiaomaomi.cc/api.php/provide/vod',
@@ -44,7 +49,7 @@ const API_SITES = {
     // },
     ffzy: {
         api: 'http://ffzy5.tv/api.php/provide/vod',
-        name: '非凡',
+        name: '非凡资源',
         detail: 'http://ffzy5.tv',
     },
     heimuer: {
@@ -54,7 +59,7 @@ const API_SITES = {
     },
     wolong: {
         api: 'https://wolongzyw.com/api.php/provide/vod',
-        name: '卧龙',
+        name: '卧龙资源',
     },
     hwba: {
         api: 'https://cjhwba.com/api.php/provide/vod',
@@ -62,28 +67,28 @@ const API_SITES = {
     },
     jisu: {
         api: 'https://jszyapi.com/api.php/provide/vod',
-        name: '极速',
+        name: '极速资源',
         detail: 'https://jszyapi.com',
     },
     dbzy: {
         api: 'https://dbzy.com/api.php/provide/vod',
-        name: '豆瓣',
+        name: '豆瓣资源',
     },
     mozhua: {
         api: 'https://mozhuazy.com/api.php/provide/vod',
-        name: '魔爪',
+        name: '魔爪资源',
     },
     mdzy: {
         api: 'https://www.mdzyapi.com/api.php/provide/vod',
-        name: '魔都',
+        name: '魔都资源',
     },
     zuid: {
         api: 'https://api.zuidapi.com/api.php/provide/vod',
-        name: '最大'
+        name: '最大资源'
     },
     yinghua: {
         api: 'https://m3u8.apiyhzy.com/api.php/provide/vod',
-        name: '樱花'
+        name: '樱花资源'
     },
     baidu: {
         api: 'https://api.apibdzy.com/api.php/provide/vod',
@@ -91,7 +96,7 @@ const API_SITES = {
     },
     wujin: {
         api: 'https://api.wujinapi.me/api.php/provide/vod',
-        name: '无尽'
+        name: '无尽资源'
     },
     ikun: {
         api: 'https://ikunzyapi.com/api.php/provide/vod',
@@ -99,12 +104,7 @@ const API_SITES = {
     },
     zy360: {
         api: 'https://360zy.com/api.php/provide/vod',
-        name: '360',
-    },
-    dyttzy: {
-        api: 'http://caiji.dyttzyapi.com/api.php/provide/vod',
-        name: 'DYTT',
-        detail: 'http://caiji.dyttzyapi.com',
+        name: '360资源',
     },
     iqiyi: {
         api: 'https://www.iqiyizyapi.com/api.php/provide/vod',
@@ -112,7 +112,7 @@ const API_SITES = {
     },
     ckzy: {
         api: 'https://www.ckzy1.com',
-        name: 'CK',
+        name: 'CK资源',
         adult: true
     },
     jkun: {
@@ -122,7 +122,7 @@ const API_SITES = {
     },
     bwzy: {
         api: 'https://api.bwzym3u8.com',
-        name: '百万',
+        name: '百万资源',
         adult: true
     },
     souav: {
@@ -148,7 +148,7 @@ const API_SITES = {
     },
     yutu: {
         api: 'https://yutuzy10.com',
-        name: '玉兔',
+        name: '玉兔资源',
         adult: true
     },
     // 下面是资源失效率高的API源，不建议使用
